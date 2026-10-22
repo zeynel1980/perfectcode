@@ -1,0 +1,3582 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5">
+<meta name="theme-color" content="#07070b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>PerfectCode Stüdyo — 10/10</title>
+<style>
+/* ============================================================
+   PERFECTCODE STÜDYO — Tasarım Sistemi
+   Tamamen kendi kendine yeterli: harici CSS/font/ikon yok.
+   ============================================================ */
+:root{
+  --bg:#07070b; --bg2:#0b0b12; --card:rgba(255,255,255,.045); --card2:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --txt:#f4f4f8; --dim:#9a9aab; --dim2:#6b6b7d;
+  --v:#8b5cf6; --b:#3b82f6; --c:#06b6d4; --g:#22c55e; --r:#ef4444; --y:#f59e0b;
+  --grad:linear-gradient(135deg,#8b5cf6 0%,#3b82f6 55%,#06b6d4 100%);
+  --grad2:linear-gradient(135deg,#f472b6 0%,#8b5cf6 100%);
+  --r-lg:22px; --r-md:16px; --r-sm:12px;
+  --sh:0 8px 30px rgba(0,0,0,.45);
+  --glow:0 0 0 1px rgba(139,92,246,.35),0 8px 30px -8px rgba(139,92,246,.55);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--txt);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:15px; line-height:1.5; overflow:hidden;
+  display:flex; flex-direction:column;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* Arka plan aurora */
+body::before{
+  content:""; position:fixed; inset:-20%; z-index:-2; pointer-events:none;
+  background:
+    radial-gradient(38% 30% at 15% 0%, rgba(139,92,246,.22), transparent 65%),
+    radial-gradient(35% 28% at 90% 8%, rgba(6,182,212,.16), transparent 65%),
+    radial-gradient(45% 35% at 50% 105%, rgba(59,130,246,.14), transparent 70%);
+  filter:saturate(1.1);
+  animation:aurora 18s ease-in-out infinite alternate;
+}
+@keyframes aurora{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-2%,0) scale(1.06)}}
+body::after{ /* ince doku */
+  content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.35;
+  background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size:3px 3px;
+}
+::-webkit-scrollbar{width:0;height:0}
+.no-sb{scrollbar-width:none;-ms-overflow-style:none}
+svg.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.ic-s{width:16px;height:16px}
+.ic-l{width:24px;height:24px}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;transition:transform .18s var(--ease),opacity .18s,background .2s,border-color .2s}
+button:active{transform:scale(.95)}
+button:disabled{opacity:.45;cursor:not-allowed}
+input,textarea,select{font:inherit;color:inherit;background:none;border:none;outline:none}
+textarea{resize:none}
+a{color:var(--c)}
+
+/* ---------- ÜST BAR ---------- */
+#topbar{
+  display:flex; align-items:center; gap:10px; padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px;
+  position:relative; z-index:20;
+}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo-mark{
+  width:38px;height:38px;border-radius:12px;background:var(--grad);display:grid;place-items:center;
+  box-shadow:var(--glow);position:relative;overflow:hidden;flex:none;
+}
+.logo-mark::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);animation:sheen 4.5s infinite}
+@keyframes sheen{0%,65%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.logo-mark svg{width:21px;height:21px;stroke:#fff;stroke-width:2.2}
+.logo-txt{min-width:0}
+.logo-txt b{display:block;font-size:16px;font-weight:800;letter-spacing:-.4px;line-height:1.1}
+.logo-txt span{font-size:10.5px;color:var(--dim);font-weight:600;letter-spacing:.4px}
+.chip{
+  display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;
+  background:rgba(139,92,246,.14);border:1px solid rgba(139,92,246,.3);color:#c4b5fd;
+  font-size:10.5px;font-weight:800;letter-spacing:.3px;white-space:nowrap;
+}
+.chip.ok{background:rgba(34,197,94,.13);border-color:rgba(34,197,94,.3);color:#86efac}
+.chip.warn{background:rgba(245,158,11,.13);border-color:rgba(245,158,11,.3);color:#fcd34d}
+.icon-btn{
+  width:38px;height:38px;border-radius:12px;background:var(--card);border:1px solid var(--line);
+  display:grid;place-items:center;color:var(--dim);flex:none;
+}
+.icon-btn:active{background:var(--card2);color:#fff}
+.spacer{flex:1}
+
+/* ---------- DURUM KARTI ---------- */
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 0 0 rgba(34,197,94,.6);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}70%{box-shadow:0 0 0 8px rgba(34,197,94,0)}100%{box-shadow:0 0 0 0 rgba(34,197,94,0)}}
+#loadWrap{margin:8px 16px 0;padding:10px 12px;border-radius:var(--r-md);background:var(--card);border:1px solid var(--line)}
+.bar{height:6px;background:rgba(255,255,255,.09);border-radius:99px;overflow:hidden}
+.bar>i{display:block;height:100%;width:0%;background:var(--grad);border-radius:99px;transition:width .35s var(--ease)}
+.bar>i.indet{width:38%;animation:indet 1.4s infinite var(--ease)}
+@keyframes indet{0%{margin-left:-40%}100%{margin-left:100%}}
+
+/* ---------- SEKMELER ---------- */
+#tabs{
+  display:flex; gap:4px; margin:0 16px 10px; padding:4px; border-radius:16px;
+  background:rgba(255,255,255,.045); border:1px solid var(--line); position:relative; z-index:5;
+  overflow-x:auto; scrollbar-width:none;
+}
+#tabs::-webkit-scrollbar{display:none}
+#tabs button{
+  flex:1 0 auto; padding:9px 8px; border-radius:12px; display:flex; align-items:center;justify-content:center;gap:5px;
+  font-size:12px; font-weight:800; color:var(--dim2); white-space:nowrap; letter-spacing:-.2px;
+}
+#tabs button.on{background:#fff;color:#08080d;box-shadow:0 4px 16px rgba(255,255,255,.16)}
+#tabs button svg{width:15px;height:15px}
+
+/* ---------- ORTAK PANEL ---------- */
+main{flex:1;min-height:0;display:flex;flex-direction:column;position:relative}
+.pane{flex:1;min-height:0;display:flex;flex-direction:column;overflow-y:auto;padding:0 16px 14px;gap:10px}
+.pane[hidden]{display:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px;backdrop-filter:blur(12px)}
+.card.tight{padding:12px}
+.h-title{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:900;letter-spacing:.9px;text-transform:uppercase;color:var(--dim2);margin-bottom:9px}
+.h-title svg{width:14px;height:14px;color:var(--v)}
+.muted{color:var(--dim);font-size:12px;line-height:1.55}
+.hint{font-size:11.5px;color:var(--dim2);line-height:1.5}
+
+/* Butonlar */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:11px 15px;border-radius:14px;font-size:13.5px;font-weight:800;letter-spacing:-.1px;
+  background:var(--card2);border:1px solid var(--line2);color:var(--txt);
+}
+.btn.primary{background:var(--grad);border:none;color:#fff;box-shadow:0 8px 24px -10px rgba(139,92,246,.9)}
+.btn.soft{background:rgba(139,92,246,.14);border-color:rgba(139,92,246,.3);color:#c4b5fd}
+.btn.ghost{background:transparent;border-color:var(--line)}
+.btn.wide{width:100%}
+.btn.sm{padding:8px 11px;font-size:12px;border-radius:11px}
+.btn.danger{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.3);color:#fca5a5}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Giriş alanları */
+.field{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 13px;font-size:14px;line-height:1.55;transition:border-color .2s,box-shadow .2s}
+.field:focus{border-color:rgba(139,92,246,.6);box-shadow:0 0 0 3px rgba(139,92,246,.12)}
+.field::placeholder{color:var(--dim2)}
+select.field{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%239a9aab' stroke-width='2'><path d='M3 5l4 4 4-4'/></svg>");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px;font-weight:700}
+.label{font-size:11px;font-weight:800;color:var(--dim2);letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px;display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* ---------- SOHBET ---------- */
+#msgs{display:flex;flex-direction:column;gap:11px;padding-bottom:6px}
+.msg{display:flex;gap:9px;animation:rise .38s var(--ease) both}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.msg .av{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;flex:none;margin-top:2px}
+.msg.bot .av{background:var(--grad);color:#fff;box-shadow:0 4px 14px -6px rgba(139,92,246,.9)}
+.msg.me .av{background:rgba(255,255,255,.09);color:#fff}
+.msg .body{min-width:0;flex:1}
+.bubble{
+  border-radius:16px;padding:11px 13px;font-size:14px;line-height:1.62;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);overflow-wrap:anywhere;
+  border-top-left-radius:5px;
+}
+.msg.me .bubble{background:linear-gradient(135deg,rgba(139,92,246,.26),rgba(59,130,246,.18));border-color:rgba(139,92,246,.35);border-top-left-radius:16px;border-top-right-radius:5px}
+.msg.me{flex-direction:row-reverse}
+.bubble h3{font-size:13.5px;font-weight:900;margin:9px 0 4px;color:#c4b5fd;letter-spacing:-.2px}
+.bubble h3:first-child{margin-top:0}
+.bubble ul{margin:5px 0 5px 16px}
+.bubble li{margin:2px 0}
+.bubble code{background:rgba(139,92,246,.18);padding:1px 5px;border-radius:5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:#ddd6fe}
+.bubble pre{background:#05050a;border:1px solid var(--line);border-radius:11px;padding:10px;margin:8px 0;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.55;color:#e4e4ec}
+.meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:7px}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2.5px 7px;border-radius:7px;font-size:10px;font-weight:800;background:rgba(255,255,255,.06);border:1px solid var(--line);color:var(--dim)}
+.tag.g{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.28);color:#86efac}
+.tag.y{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.28);color:#fcd34d}
+.tag.r{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.28);color:#fca5a5}
+.tag.v{background:rgba(139,92,246,.14);border-color:rgba(139,92,246,.3);color:#c4b5fd}
+.tag svg{width:10px;height:10px}
+.dots{display:inline-flex;gap:3px;align-items:center}
+.dots i{width:5px;height:5px;border-radius:50%;background:var(--v);animation:bounce 1.2s infinite}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+
+/* Hızlı öneri kartları */
+.sugg{display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;scrollbar-width:none}
+.sugg::-webkit-scrollbar{display:none}
+.sugg button{
+  flex:none;padding:9px 12px;border-radius:13px;background:var(--card);border:1px solid var(--line);
+  font-size:12px;font-weight:700;color:#d4d4dc;display:flex;align-items:center;gap:6px;white-space:nowrap;
+}
+.sugg button svg{width:14px;height:14px;color:var(--v)}
+
+/* ---------- ALT GİRİŞ ÇUBUĞU ---------- */
+#composer{
+  padding:8px 12px calc(8px + var(--safe-b)); background:linear-gradient(180deg,transparent,rgba(7,7,11,.92) 35%);
+  display:flex;flex-direction:column;gap:6px; position:relative; z-index:15;
+}
+#inputShell{
+  display:flex;align-items:flex-end;gap:7px;padding:6px 6px 6px 12px;border-radius:20px;
+  background:rgba(18,18,26,.96);border:1px solid var(--line2);box-shadow:var(--sh);backdrop-filter:blur(14px);
+}
+#inputShell:focus-within{border-color:rgba(139,92,246,.55);box-shadow:0 0 0 3px rgba(139,92,246,.1),var(--sh)}
+#userInput{flex:1;background:none;border:none;font-size:14.5px;line-height:1.45;max-height:110px;padding:8px 0;color:#fff}
+#userInput::placeholder{color:var(--dim2)}
+#sendBtn{width:38px;height:38px;border-radius:13px;background:var(--grad);display:grid;place-items:center;color:#fff;box-shadow:0 8px 20px -8px rgba(139,92,246,.95);flex:none}
+#sendBtn.stop{background:linear-gradient(135deg,#ef4444,#f97316);box-shadow:0 8px 20px -8px rgba(239,68,68,.9)}
+#micInline{width:38px;height:38px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid var(--line);display:grid;place-items:center;color:var(--dim);flex:none}
+#micInline.rec{background:rgba(239,68,68,.18);border-color:rgba(239,68,68,.45);color:#fca5a5;animation:recPulse 1.3s infinite}
+@keyframes recPulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.35)}50%{box-shadow:0 0 0 7px rgba(239,68,68,0)}}
+
+/* ---------- KOD LAB ---------- */
+.code-box{background:#05050a;border:1px solid var(--line);border-radius:var(--r-md);padding:12px;overflow:auto;max-height:52dvh;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.6;color:#e6e6ee;white-space:pre;tab-size:2}
+.code-box.wrap{white-space:pre-wrap;overflow-wrap:anywhere}
+.kw{color:#c084fc}.str{color:#86efac}.num{color:#fbbf24}.cm{color:#5b5b6e;font-style:italic}.fn{color:#7dd3fc}.op{color:#f0abfc}
+.term{background:#04040a;border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;font-family:ui-monospace,monospace;font-size:11.5px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;max-height:30dvh;overflow:auto;color:#a7f3d0}
+.term.err{color:#fca5a5}
+.term .ok{color:#86efac}
+
+/* ---------- MEDYA ---------- */
+.drop{
+  border:1.5px dashed rgba(255,255,255,.16);border-radius:var(--r-lg);padding:22px 14px;text-align:center;
+  background:rgba(255,255,255,.025);transition:.25s var(--ease);cursor:pointer;
+}
+.drop:active{background:rgba(139,92,246,.09);border-color:rgba(139,92,246,.5)}
+.drop .dicon{width:52px;height:52px;border-radius:16px;background:var(--card2);display:grid;place-items:center;margin:0 auto 10px;color:var(--v)}
+.drop b{display:block;font-size:14px;font-weight:800;margin-bottom:3px}
+.drop span{font-size:11.5px;color:var(--dim2);line-height:1.5}
+.preview{position:relative;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--line);background:#000}
+.preview img{display:block;width:100%;max-height:38dvh;object-fit:contain}
+.preview .x{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:9px;background:rgba(0,0,0,.7);display:grid;place-items:center;color:#fff;backdrop-filter:blur(6px)}
+.pdf-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:12.5px;font-weight:700}
+.pdf-item .pi{width:30px;height:30px;border-radius:9px;background:rgba(239,68,68,.14);color:#fca5a5;display:grid;place-items:center;flex:none}
+.pdf-item .pn{min-width:0;flex:1}
+.pdf-item .pn div:last-child{font-size:10.5px;color:var(--dim2);font-weight:600;margin-top:1px}
+
+/* ---------- ARAŞTIRMA ---------- */
+.res-block{display:flex;flex-direction:column;gap:8px}
+.res-step{display:flex;gap:9px;padding:10px 11px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid var(--line)}
+.res-step .n{width:20px;height:20px;border-radius:7px;background:rgba(139,92,246,.18);color:#c4b5fd;display:grid;place-items:center;font-size:10.5px;font-weight:900;flex:none}
+.res-step .t{font-size:12.5px;line-height:1.55;color:#dddde5;min-width:0}
+.conf{display:flex;align-items:center;gap:9px;padding:11px 12px;border-radius:13px;background:rgba(34,197,94,.07);border:1px solid rgba(34,197,94,.2)}
+.conf .val{font-size:19px;font-weight:900;letter-spacing:-.6px;color:#86efac;line-height:1}
+.conf .lbl{font-size:10.5px;color:var(--dim);font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+.conf .track{flex:1;height:7px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.conf .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#22c55e,#06b6d4);transition:width .7s var(--ease)}
+.opp{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:13px;padding:11px 12px}
+.opp b{font-size:11px;color:#fcd34d;letter-spacing:.6px;text-transform:uppercase;display:flex;align-items:center;gap:5px;margin-bottom:5px}
+.opp p{font-size:12.5px;color:#d6d3c8;line-height:1.55}
+
+/* ---------- SES STÜDYOSU ---------- */
+#voiceOverlay{
+  position:fixed;inset:0;z-index:80;display:none;flex-direction:column;align-items:center;justify-content:center;gap:20px;
+  background:radial-gradient(circle at 50% 40%,rgba(139,92,246,.28),rgba(7,7,11,.96) 62%);
+  backdrop-filter:blur(22px);padding:24px;
+}
+#voiceOverlay.on{display:flex;animation:fadeIn .28s var(--ease)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.orb{position:relative;width:150px;height:150px;display:grid;place-items:center}
+.orb .core{
+  width:104px;height:104px;border-radius:50%;background:var(--grad);display:grid;place-items:center;color:#fff;
+  box-shadow:0 0 60px -8px rgba(139,92,246,.9);animation:breathe 3.2s ease-in-out infinite;
+}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.orb .ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid rgba(139,92,246,.35);animation:ringOut 2.6s infinite ease-out}
+.orb .ring:nth-child(2){animation-delay:.85s}
+.orb .ring:nth-child(3){animation-delay:1.7s}
+@keyframes ringOut{0%{transform:scale(.62);opacity:.85}100%{transform:scale(1.25);opacity:0}}
+.orb.speaking .core{background:linear-gradient(135deg,#06b6d4,#8b5cf6);animation:breathe 1.1s ease-in-out infinite}
+.wave{display:flex;align-items:center;gap:3px;height:34px}
+.wave i{width:3.5px;border-radius:99px;background:linear-gradient(180deg,#a78bfa,#22d3ee);height:8px;opacity:.75}
+.wave.run i{animation:wv .9s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.08s}.wave i:nth-child(3){animation-delay:.16s}.wave i:nth-child(4){animation-delay:.24s}
+.wave i:nth-child(5){animation-delay:.32s}.wave i:nth-child(6){animation-delay:.4s}.wave i:nth-child(7){animation-delay:.48s}
+.wave i:nth-child(8){animation-delay:.56s}.wave i:nth-child(9){animation-delay:.64s}.wave i:nth-child(10){animation-delay:.72s}
+@keyframes wv{0%,100%{height:7px}50%{height:32px}}
+#voiceText{font-size:15.5px;text-align:center;max-width:340px;min-height:44px;line-height:1.5;font-weight:600;color:#e9e9f2}
+#voiceState{font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:#a78bfa}
+#voiceClose{position:absolute;top:calc(16px + env(safe-area-inset-top,0px));right:16px}
+
+/* ---------- ALT MENÜ / SHEET ---------- */
+.sheet{position:fixed;inset:0;z-index:70;display:none;background:rgba(0,0,0,.72);backdrop-filter:blur(5px)}
+.sheet.on{display:block;animation:fadeIn .2s}
+.sheet-inner{
+  position:absolute;left:0;right:0;bottom:0;max-height:88dvh;overflow-y:auto;
+  background:#0d0d15;border-radius:26px 26px 0 0;border-top:1px solid var(--line2);
+  padding:8px 16px calc(20px + var(--safe-b));animation:sheetUp .32s var(--ease);
+}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+.grab{width:40px;height:4px;border-radius:99px;background:rgba(255,255,255,.2);margin:6px auto 14px}
+.sheet h2{font-size:17px;font-weight:900;letter-spacing:-.4px;margin-bottom:3px}
+.sheet .sub{font-size:12px;color:var(--dim);margin-bottom:14px}
+.list-item{display:flex;align-items:center;gap:11px;padding:12px;border-radius:15px;background:var(--card);border:1px solid var(--line);margin-bottom:8px}
+.list-item.sel{border-color:rgba(139,92,246,.5);background:rgba(139,92,246,.1)}
+.list-item .li{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,.06);color:var(--dim);flex:none}
+.list-item.sel .li{background:var(--grad);color:#fff}
+.list-item .ln{flex:1;min-width:0}
+.list-item .ln b{display:block;font-size:13px;font-weight:800}
+.list-item .ln span{font-size:11px;color:var(--dim2);line-height:1.4}
+.check{width:22px;height:22px;border-radius:99px;border:1.5px solid var(--line2);display:grid;place-items:center;flex:none;color:transparent}
+.list-item.sel .check{background:var(--v);border-color:var(--v);color:#fff}
+.switch{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:14px;background:var(--card);border:1px solid var(--line);margin-bottom:8px}
+.switch .sn{flex:1;min-width:0}
+.switch .sn b{display:block;font-size:12.5px;font-weight:800}
+.switch .sn span{font-size:11px;color:var(--dim2);line-height:1.4}
+.tgl{width:44px;height:26px;border-radius:99px;background:rgba(255,255,255,.12);position:relative;flex:none;transition:.25s var(--ease)}
+.tgl::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.25s var(--ease)}
+.tgl.on{background:var(--v)}
+.tgl.on::after{transform:translateX(18px)}
+
+/* ---------- TOAST ---------- */
+#toasts{position:fixed;left:0;right:0;bottom:calc(96px + var(--safe-b));z-index:120;display:flex;flex-direction:column;align-items:center;gap:7px;pointer-events:none;padding:0 16px}
+.toast{
+  display:flex;align-items:center;gap:8px;padding:10px 15px;border-radius:14px;
+  background:rgba(24,24,34,.97);border:1px solid var(--line2);font-size:12.5px;font-weight:700;
+  box-shadow:var(--sh);animation:toastIn .3s var(--ease);max-width:100%;
+}
+@keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+.toast.ok{border-color:rgba(34,197,94,.4)}.toast.ok svg{color:#86efac}
+.toast.err{border-color:rgba(239,68,68,.4)}.toast.err svg{color:#fca5a5}
+.toast svg{width:16px;height:16px;color:#a78bfa;flex:none}
+
+/* ---------- BOŞ DURUM ---------- */
+.empty{text-align:center;padding:26px 16px;color:var(--dim2)}
+.empty .eicon{width:60px;height:60px;border-radius:20px;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;margin:0 auto 12px;color:var(--v)}
+.empty b{display:block;color:#dedee6;font-size:14.5px;font-weight:800;margin-bottom:5px}
+.empty p{font-size:12px;line-height:1.6;max-width:280px;margin:0 auto}
+
+/* skor halkası */
+.score{display:flex;align-items:center;gap:11px}
+.ring{--p:0;width:46px;height:46px;border-radius:50%;background:conic-gradient(#22c55e calc(var(--p)*1%),rgba(255,255,255,.09) 0);display:grid;place-items:center;flex:none}
+.ring::after{content:attr(data-t);width:34px;height:34px;border-radius:50%;background:#0d0d15;display:grid;place-items:center;font-size:11.5px;font-weight:900;color:#86efac}
+
+/* --- Sade üst bar --- */
+.status-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);font-size:10.5px;font-weight:800;color:#c9c9d6}
+.status-pill .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,.8)}
+.status-pill .dot.off{background:#71717a;box-shadow:none}
+.status-pill .dot.wait{background:#f59e0b;box-shadow:0 0 6px rgba(245,158,11,.7)}
+
+/* --- Ana ekran --- */
+.home{padding:12px 0 6px;display:flex;flex-direction:column;gap:14px}
+.home-hi{font-size:23px;font-weight:900;letter-spacing:-.7px;line-height:1.15;padding:2px 2px 0}
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.home-card{display:flex;flex-direction:column;align-items:flex-start;gap:7px;padding:13px 12px;
+  border-radius:18px;background:rgba(255,255,255,.045);border:1px solid var(--line);text-align:left;min-height:104px}
+.home-card:active{background:rgba(255,255,255,.08);transform:scale(.98)}
+.hc-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:none}
+.home-card b{font-size:13px;font-weight:800;letter-spacing:-.2px;line-height:1.25}
+.home-card span{font-size:10.5px;color:var(--dim2);line-height:1.35;font-weight:600}
+.home-voice{display:flex;align-items:center;justify-content:center;gap:7px;padding:12px;
+  border-radius:16px;background:var(--grad);color:#fff;font-size:13.5px;font-weight:800;
+  box-shadow:0 10px 26px -12px rgba(139,92,246,.95)}
+
+/* --- Hızlı menü --- */
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.menu-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 10px;
+  border-radius:18px;background:var(--card);border:1px solid var(--line);font-size:12px;font-weight:800;color:#dcdce6}
+.menu-item:active{background:var(--card2)}
+.menu-item svg{color:#a78bfa}
+
+/* --- Üst bar sıkıştırma --- */
+#topbar{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:8px}
+.logo-mark{width:34px;height:34px;border-radius:11px}
+.logo-mark svg{width:19px;height:19px}
+.logo-txt b{font-size:15.5px}
+#tabs{margin-bottom:8px;padding:3px}
+#tabs button{padding:8px 6px;font-size:11.5px}
+
+/* --- Mesaj etiketlerini sadeleştir --- */
+.msg .meta{gap:5px;margin-top:5px;opacity:.9}
+.msg .meta .tag{font-size:9.5px;padding:2px 6px}
+
+/* --- Ana ekran: iki buyuk secenek --- */
+.home-big{display:flex;align-items:center;gap:13px;width:100%;padding:16px 15px;border-radius:20px;
+  background:rgba(255,255,255,.05);border:1px solid var(--line);text-align:left;min-height:82px}
+.home-big.voice{background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(59,130,246,.14));border-color:rgba(139,92,246,.38)}
+.home-big:active{transform:scale(.985);background:rgba(255,255,255,.08)}
+.hb-ic{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;flex:none;
+  background:rgba(255,255,255,.08);color:#d9d9e3}
+.home-big.voice .hb-ic{background:var(--grad);color:#fff;box-shadow:0 8px 22px -10px rgba(139,92,246,.95)}
+.hb-txt{flex:1;min-width:0}
+.hb-txt b{display:block;font-size:15.5px;font-weight:800;letter-spacing:-.3px}
+.hb-txt span{display:block;font-size:11.5px;color:var(--dim2);margin-top:2px;font-weight:600}
+.hb-arrow{color:var(--dim2);width:18px;height:18px}
+.tool-row{display:flex;gap:8px}
+.tool-row button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 6px;
+  border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line);
+  font-size:11.5px;font-weight:800;color:#c9c9d6}
+.tool-row button svg{width:15px;height:15px;color:#a78bfa}
+
+/* --- Sesli sohbet paneli --- */
+#pane-voice{padding-bottom:0}
+#voiceStage{display:flex;flex-direction:column;align-items:center;gap:10px;padding:12px 0 14px;flex:none}
+#voiceStage .orb{width:104px;height:104px}
+#voiceStage .orb .core{width:74px;height:74px}
+#voiceStage .orb .core svg{width:26px;height:26px}
+#voiceState2{font-size:10px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;color:#a78bfa}
+#voiceLive{font-size:13px;line-height:1.5;color:#d7d7e0;text-align:center;max-width:320px;min-height:38px}
+#voiceStage .btn.wide{max-width:320px}
+#voiceLog .vb{display:flex;gap:8px;animation:rise .3s var(--ease) both}
+#voiceLog .vb.me{flex-direction:row-reverse}
+#voiceLog .vb .av{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;flex:none;
+  background:rgba(255,255,255,.08);color:#fff;margin-top:2px}
+#voiceLog .vb.bot .av{background:var(--grad)}
+#voiceLog .vb .t{border-radius:15px;padding:9px 12px;font-size:13.5px;line-height:1.55;max-width:82%;
+  background:rgba(255,255,255,.055);border:1px solid var(--line);overflow-wrap:anywhere}
+#voiceLog .vb.me .t{background:linear-gradient(135deg,rgba(139,92,246,.28),rgba(59,130,246,.18));border-color:rgba(139,92,246,.35)}
+
+/* + dugmesi */
+#plusBtn{width:38px;height:38px;border-radius:13px;background:rgba(255,255,255,.06);border:1px solid var(--line);
+  display:grid;place-items:center;color:#cfcfda;flex:none}
+#plusBtn:active{background:rgba(255,255,255,.12)}
+#inputShell{padding-left:6px;gap:6px}
+
+@media(min-width:640px){
+  body{max-width:520px;margin:0 auto;border-left:1px solid var(--line);border-right:1px solid var(--line)}
+  #voiceOverlay{max-width:520px;margin:0 auto}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ İKON SETİ (gömülü) ============ -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M19 15l.8 2.2 2.2.8-2.2.8L19 21l-.8-2.2-2.2-.8 2.2-.8L19 15z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></symbol>
+  <symbol id="i-microscope" viewBox="0 0 24 24"><path d="M6 18h12M9 18V9a3 3 0 016 0v2M12 18v3M4 21h16"/><circle cx="16" cy="14" r="2.5"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="8.5" cy="9.5" r="1.8"/><path d="M21 16l-5-5-6 6"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3v5h5M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/><path d="M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v4M8 22h8"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3L10.5 13.5M21 3l-6.5 18-4-8-8-4L21 3z"/></symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2.5" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.9l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.9-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1A1.7 1.7 0 008.9 19a1.7 1.7 0 00-1.9.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.9 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1A1.7 1.7 0 004.6 8.9a1.7 1.7 0 00-.3-1.9l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.9.3H10a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.9-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.9V10a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24"><path d="M9.5 3A3.5 3.5 0 006 6.5 3 3 0 004 9.4a3 3 0 001.5 2.6A3 3 0 007 17h.5a2.5 2.5 0 005 0V3.5A2 2 0 009.5 3z"/><path d="M14.5 3A3.5 3.5 0 0118 6.5 3 3 0 0120 9.4a3 3 0 01-1.5 2.6A3 3 0 0117 17h-.5a2.5 2.5 0 01-5 0"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8V4z" fill="currentColor" stroke="currentColor" stroke-width="1.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2.5"/><path d="M6 15H5a2 2 0 01-2-2V5a2 2 0 012-2h8a2 2 0 012 2v1"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4"/><path d="M5 14v5a2 2 0 002 2h10a2 2 0 002-2v-5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3 8.5A2.5 2.5 0 015.5 6h1.7l1.2-2h7.2l1.2 2h1.7A2.5 2.5 0 0121 8.5v9A2.5 2.5 0 0118.5 20h-13A2.5 2.5 0 013 17.5v-9z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M8 8l4-4 4 4"/><path d="M4 15v3a3 3 0 003 3h10a3 3 0 003-3v-3"/></symbol>
+  <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M16 9a4 4 0 010 6M19 6a8 8 0 010 12"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><path d="M11 5L6 9H3v6h3l5 4V5z"/><path d="M17 9l4 6M21 9l-4 6"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 10-2.5 6M20 5v6h-6"/></symbol>
+  <symbol id="i-wand" viewBox="0 0 24 24"><path d="M4 20l10-10M14 4l1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3zM19 13l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3v5h5M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8l-5-5z"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8"/><path d="M3 4v4h4"/><path d="M12 8v5l3 2"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4"/><path d="M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></symbol>
+</svg>
+
+<!-- ============ ÜST BAR ============ -->
+<header id="topbar">
+  <button class="logo" onclick="goHome()">
+    <div class="logo-mark"><svg class="ic"><use href="#i-code"/></svg></div>
+    <div class="logo-txt">
+      <b>PerfectCode</b>
+    </div>
+  </button>
+  <button class="status-pill" onclick="openSheet('engineSheet')">
+    <span class="dot" id="statusDot"></span><span id="engineChip">Bulut</span>
+  </button>
+  <div class="spacer"></div>
+  <button class="icon-btn" onclick="openSheet('menuSheet')" aria-label="Menü"><svg class="ic"><use href="#i-menu"/></svg></button>
+</header>
+
+<!-- ============ YÜKLEME (yalnızca model inerken) ============ -->
+<div id="loadWrap" hidden>
+  <div style="display:flex;justify-content:space-between;font-size:11.5px;font-weight:800;margin-bottom:6px">
+    <span id="loadText" style="color:var(--dim)">Model indiriliyor…</span>
+    <span id="loadPct" style="color:#c4b5fd">0%</span>
+  </div>
+  <div class="bar"><i id="loadBar"></i></div>
+  
+</div>
+
+<!-- ============ SEKMELER ============ -->
+<nav id="tabs">
+  <button data-mode="chat" class="on"><svg class="ic"><use href="#i-spark"/></svg>Sohbet</button>
+  <button data-mode="code"><svg class="ic"><use href="#i-code"/></svg>Kod</button>
+  <button data-mode="research"><svg class="ic"><use href="#i-microscope"/></svg>Araştır</button>
+  <button data-mode="media"><svg class="ic"><use href="#i-image"/></svg>Medya</button>
+</nav>
+
+<main>
+  <!-- ---------- SOHBET ---------- -->
+  <section class="pane" id="pane-chat">
+    <div id="msgs"></div>
+    <div id="chatEmpty" class="home">
+      <div class="home-hi">Nasıl konuşalım?</div>
+      <button class="home-big voice" onclick="setMode('voice')">
+        <span class="hb-ic"><svg class="ic ic-l"><use href="#i-mic"/></svg></span>
+        <span class="hb-txt"><b>Sesli sohbet</b><span>Karşılıklı konuş</span></span>
+        <svg class="ic hb-arrow"><use href="#i-play"/></svg>
+      </button>
+      <button class="home-big" onclick="setMode('chat')">
+        <span class="hb-ic"><svg class="ic ic-l"><use href="#i-spark"/></svg></span>
+        <span class="hb-txt"><b>Yazılı sohbet</b><span>Yaz veya dikte et</span></span>
+        <svg class="ic hb-arrow"><use href="#i-send"/></svg>
+      </button>
+      <div class="tool-row">
+        <button onclick="setMode('code')"><svg class="ic"><use href="#i-code"/></svg>Kod</button>
+        <button onclick="setMode('media')"><svg class="ic"><use href="#i-camera"/></svg>Medya</button>
+        <button onclick="setMode('research')"><svg class="ic"><use href="#i-microscope"/></svg>Araştır</button>
+      </div>
+    </div>
+    <div id="sugg" hidden></div>
+  </section>
+
+  <!-- ---------- SESLİ SOHBET ---------- -->
+  <section class="pane" id="pane-voice" hidden>
+    <div id="capBar" style="display:flex;gap:6px;flex-wrap:wrap;padding:2px 0 8px;flex:none"></div>
+    <div id="voiceLog" style="flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:0 0 8px"></div>
+    <div id="voiceStage">
+      <div class="orb" id="orb2">
+        <div class="ring"></div><div class="ring"></div><div class="ring"></div>
+        <div class="core"><svg class="ic" style="width:30px;height:30px"><use href="#i-mic"/></svg></div>
+      </div>
+      <div class="wave" id="wave2"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div id="voiceState2">HAZIR</div>
+      <div id="voiceLive">Başlamak için düğmeye bas, sonra normal konuş.</div>
+      <button class="btn primary wide" id="voiceMainBtn" onclick="voiceToggle()">
+        <svg class="ic ic-s"><use href="#i-mic"/></svg>Sohbete başla
+      </button>
+      <div class="row" style="justify-content:center">
+        <button class="btn ghost sm" onclick="voiceClear()">Temizle</button>
+        <button class="btn ghost sm" onclick="setMode('chat')">Yazılıya geç</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- KOD LAB ---------- -->
+  <section class="pane" id="pane-code" hidden>
+    <div class="card tight">
+      <div class="h-title"><svg class="ic"><use href="#i-code"/></svg>Kod Üret</div>
+      <div class="grid2" style="margin-bottom:8px">
+        <div><span class="label">Dil</span>
+          <select id="codeLang" class="field" style="padding:9px 12px;font-size:13px">
+            <option>Python</option><option>JavaScript</option><option>TypeScript</option><option>Java</option>
+            <option>C#</option><option>C++</option><option>Go</option><option>Rust</option><option>PHP</option><option>SQL</option>
+          </select>
+        </div>
+        <div><span class="label">Görev</span>
+          <select id="codeTask" class="field" style="padding:9px 12px;font-size:13px">
+            <option value="generate">Sıfırdan yaz</option><option value="review">İncele</option>
+            <option value="debug">Hata ayıkla</option><option value="optimize">Optimize et</option>
+            <option value="test">Test yaz</option><option value="explain">Açıkla</option>
+          </select>
+        </div>
+      </div>
+      <textarea id="codePrompt" class="field" rows="3" placeholder="Ne istiyorsun? Örn: Kargo takip sistemi, JWT giriş, e-ticaret sepeti…"></textarea>
+      <button class="btn primary wide" style="margin-top:9px" id="codeGenBtn" onclick="codeGenerate()">
+        <svg class="ic ic-s"><use href="#i-wand"/></svg>Üret
+      </button>
+    </div>
+
+    <div id="codeResult" hidden style="display:flex;flex-direction:column;gap:9px">
+      <div class="card tight">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px">
+          <span class="chip" id="codeBadge">KOD</span>
+          <div class="row" style="gap:6px">
+            <button class="btn sm ghost" onclick="copyCode()"><svg class="ic ic-s"><use href="#i-copy"/></svg>Kopyala</button>
+            <button class="btn sm ghost" onclick="saveSnippet()" title="Kütüphaneye kaydet"><svg class="ic ic-s"><use href="#i-download"/></svg></button>
+            <button class="btn sm ghost" onclick="openSnippets()" title="Kod kütüphanesi"><svg class="ic ic-s"><use href="#i-history"/></svg></button>
+          </div>
+        </div>
+        <pre class="code-box" id="codeOut"></pre>
+        <div class="row" style="margin-top:9px">
+          <button class="btn primary sm" style="flex:1" onclick="runCode()"><svg class="ic ic-s"><use href="#i-play"/></svg>Çalıştır</button>
+          <button class="btn soft sm" style="flex:1" onclick="fixCode()"><svg class="ic ic-s"><use href="#i-refresh"/></svg>Otomatik Düzelt</button>
+        </div>
+        <div class="hint" id="codeMeta" style="margin-top:7px"></div>
+      </div>
+      <div class="card tight" id="runCard" hidden>
+        <div class="h-title"><svg class="ic"><use href="#i-play"/></svg>Konsol</div>
+        <div class="term" id="runOut">Hazır.</div>
+      </div>
+      <div class="card tight" id="codeScoreCard" hidden>
+        <div class="score">
+          <div class="ring" id="codeRing" data-t="0">0</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:800">Kod Kalite Skoru</div>
+            <div class="hint" id="codeScoreTxt">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- ARAŞTIRMA ---------- -->
+  <section class="pane" id="pane-research" hidden>
+    <div class="card tight">
+      <div class="h-title"><svg class="ic"><use href="#i-microscope"/></svg>Araştırmacı Modu</div>
+      <textarea id="researchInput" class="field" rows="3" placeholder="Bir soru yaz. Örn: Yapay zekâ işsizliği artırır mı? Farklı görüşleri karşılaştır."></textarea>
+      <div class="row" style="margin-top:9px">
+        <button class="btn primary" style="flex:1" onclick="doResearch()"><svg class="ic ic-s"><use href="#i-search"/></svg>Araştır</button>
+        <button class="btn soft" onclick="startVoice('research')"><svg class="ic ic-s"><use href="#i-mic"/></svg></button>
+      </div>
+      
+    </div>
+    <div id="researchOut"></div>
+  </section>
+
+  <!-- ---------- MEDYA ---------- -->
+  <section class="pane" id="pane-media" hidden>
+    <div class="card tight">
+      <div class="h-title"><svg class="ic"><use href="#i-image"/></svg>Fotoğraftan Kod</div>
+      <div class="drop" onclick="document.getElementById('imgInput').click()">
+        <div class="dicon"><svg class="ic ic-l"><use href="#i-camera"/></svg></div>
+        <b>Fotoğraf çek veya seç</b>
+        <span>Ekran, tahta, kitap · 5 fotoğrafa kadar</span>
+      </div>
+      <input type="file" id="imgInput" accept="image/*" multiple hidden>
+      <input type="file" id="camInput" accept="image/*" capture="environment" hidden>
+      <div id="imgPreviewWrap" hidden style="margin-top:9px">
+        <div id="imgGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px;margin-bottom:8px"></div>
+        <div class="row">
+          <button class="btn primary sm" style="flex:1" onclick="ocrImage()"><svg class="ic ic-s"><use href="#i-search"/></svg>Oku</button>
+          <button class="btn soft sm" onclick="fixPhotoCode()"><svg class="ic ic-s"><use href="#i-wand"/></svg>Düzelt</button>
+          <button class="btn ghost sm" onclick="clearImage()"><svg class="ic ic-s"><use href="#i-x"/></svg></button>
+        </div>
+      </div>
+      <div id="ocrStatus" class="hint" style="margin-top:8px"></div>
+    </div>
+
+    <div class="card tight" id="ocrCard" hidden>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span class="chip ok" id="ocrLangChip">OKUNDU</span>
+        <div class="row" style="gap:6px">
+          <button class="btn sm ghost" onclick="copyText('ocrOut')"><svg class="ic ic-s"><use href="#i-copy"/></svg></button>
+          <button class="btn sm ghost" onclick="ocrToLab()"><svg class="ic ic-s"><use href="#i-code"/></svg>Lab'a at</button>
+        </div>
+      </div>
+      <pre class="code-box wrap" id="ocrOut"></pre>
+    </div>
+
+    <div class="card tight">
+      <div class="h-title"><svg class="ic"><use href="#i-file"/></svg>PDF / Belge Özetle</div>
+      <div class="drop" onclick="document.getElementById('pdfInput').click()">
+        <div class="dicon" style="color:#fca5a5;background:rgba(239,68,68,.12)"><svg class="ic ic-l"><use href="#i-file"/></svg></div>
+        <b>PDF seç</b>
+        <span>60 sayfaya kadar · özet + ana fikir</span>
+      </div>
+      <input type="file" id="pdfInput" accept="application/pdf" hidden>
+      <div id="pdfList" style="margin-top:9px;display:flex;flex-direction:column;gap:7px"></div>
+      <div class="row" style="margin-top:9px" id="pdfActions" hidden>
+        <button class="btn primary sm" style="flex:1" onclick="summarizePdf()"><svg class="ic ic-s"><use href="#i-spark"/></svg>Özetle</button>
+        <select id="pdfLen" class="field" style="flex:1;padding:8px 12px;font-size:12px">
+          <option value="short">Kısa (5 madde)</option>
+          <option value="medium" selected>Orta (10 madde)</option>
+          <option value="long">Detaylı</option>
+        </select>
+      </div>
+    </div>
+    <div id="pdfOut"></div>
+
+    <div class="card tight">
+      <div class="h-title"><svg class="ic"><use href="#i-doc"/></svg>Proje dosyaları</div>
+      <div class="drop" onclick="document.getElementById('fileInput').click()">
+        <div class="dicon" style="color:#93c5fd;background:rgba(59,130,246,.12)"><svg class="ic ic-l"><use href="#i-upload"/></svg></div>
+        <b>Dosya ekle</b>
+        <span>Kod · metin · PDF · 10 dosya</span>
+      </div>
+      <input type="file" id="fileInput" multiple hidden>
+      <div id="fileList" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ ALT GİRİŞ ============ -->
+<div id="composer">
+  <div class="sugg" id="ctxChips" hidden></div>
+  <div id="inputShell" style="position:relative">
+    <span id="micDot" hidden style="position:absolute;left:26px;bottom:12px;width:7px;height:7px;border-radius:50%;background:#22c55e"></span>
+    <button id="plusBtn" onclick="openAttach()" aria-label="Ekle"><svg class="ic"><use href="#i-plus"/></svg></button>
+    <button id="micInline" onclick="dictate()" aria-label="Yazıya çevir" style="opacity:1"><svg class="ic"><use href="#i-mic"/></svg></button>
+    <textarea id="userInput" rows="1" placeholder="Her şeyi sor…" oninput="autoGrow(this)" onkeydown="onKey(event)"></textarea>
+    <button id="sendBtn" onclick="sendOrStop()" aria-label="Gönder"><svg class="ic"><use href="#i-send"/></svg></button>
+  </div>
+</div>
+
+<!-- ============ HIZLI MENÜ ============ -->
+<div class="sheet" id="menuSheet" onclick="if(event.target===this)closeSheet('menuSheet')">
+  <div class="sheet-inner" style="padding-bottom:calc(16px + var(--safe-b))">
+    <div class="grab"></div>
+    <div class="menu-grid">
+      <button class="menu-item" onclick="closeSheet('menuSheet');goHome()">
+        <svg class="ic ic-l"><use href="#i-spark"/></svg><span>Ana ekran</span>
+      </button>
+      <button class="menu-item" onclick="closeSheet('menuSheet');newChat()">
+        <svg class="ic ic-l"><use href="#i-spark"/></svg><span>Yeni sohbet</span>
+      </button>
+      <button class="menu-item" onclick="closeSheet('menuSheet');openSheet('engineSheet')">
+        <svg class="ic ic-l"><use href="#i-brain"/></svg><span>Motor</span>
+      </button>
+      <button class="menu-item" onclick="closeSheet('menuSheet');openSheet('snipSheet');openSnippets()">
+        <svg class="ic ic-l"><use href="#i-history"/></svg><span>Kütüphane</span>
+      </button>
+      <button class="menu-item" onclick="closeSheet('menuSheet');openSheet('settingsSheet')">
+        <svg class="ic ic-l"><use href="#i-settings"/></svg><span>Ayarlar</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SES KURULUMU ============ -->
+<div class="sheet" id="voiceSetupSheet" onclick="if(event.target===this)closeSheet('voiceSetupSheet')">
+  <div class="sheet-inner">
+    <div class="grab"></div>
+    <h2>Ses ve mikrofon kurulumu</h2>
+    <div class="sub">Robotik sesin sebebi: cihazda Türkçe doğal ses yok</div>
+
+    <div class="h-title" style="margin-top:6px"><svg class="ic"><use href="#i-volume"/></svg>Cihazındaki sesler</div>
+    <div id="voiceTestList" style="display:flex;flex-direction:column;gap:6px"></div>
+
+    <div class="card tight" style="margin-top:12px">
+      <b style="font-size:12.5px">Windows'ta Türkçe ses ekleme</b>
+      <div class="hint" style="margin-top:6px;line-height:1.75">
+        1) <b>Ayarlar</b> → <b>Saat ve Dil</b> → <b>Konuşma</b><br>
+        2) <b>Sesler</b> → <b>Ses ekle</b> → <b>Türkçe (Türkiye)</b> → Kur<br>
+        3) Tarayıcıyı kapat-aç, sonra burada <b>Yenile</b><br>
+        <span style="color:#fcd34d">En doğal sesler:</span> Microsoft <b>Emel</b> / <b>Tolga</b> (Natural). Edge tarayıcısında bunlar hazır gelir — <b>bu sayfayı Edge'de aç</b>, ses anında doğallaşır.
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:8px">
+      <b style="font-size:12.5px">Android'de Türkçe ses ekleme</b>
+      <div class="hint" style="margin-top:6px;line-height:1.75">
+        1) <b>Ayarlar</b> → <b>Sistem</b> → <b>Diller ve giriş</b><br>
+        2) <b>Metin okuma (TTS)</b> → <b>Google Konuşma Hizmetleri</b><br>
+        3) <b>Dil verilerini yükle</b> → <b>Türkçe</b> → İndir<br>
+        4) Chrome'u kapat-aç → burada <b>Yenile</b>
+      </div>
+    </div>
+
+    <div class="card tight" style="margin-top:8px">
+      <b style="font-size:12.5px">Mikrofon / konuşma tanıma</b>
+      <div class="hint" style="margin-top:6px;line-height:1.75">
+        • <b>Chrome veya Edge</b> kullan (Firefox desteklemez)<br>
+        • Adres çubuğundaki <b>kilit</b> → <b>Mikrofon</b> → İzin ver<br>
+        • Android'de <b>Google</b> uygulaması kurulu olmalı<br>
+        • Bilgisayarda mikrofonu başka uygulama kullanıyorsa kapat
+      </div>
+      <button class="btn soft sm wide" style="margin-top:9px" onclick="micTest()">Mikrofonu test et</button>
+      <div id="micTestOut" class="hint" style="margin-top:6px"></div>
+    </div>
+
+    <button class="btn ghost wide" style="margin-top:12px" onclick="closeSheet('voiceSetupSheet')">Kapat</button>
+  </div>
+</div>
+
+<!-- ============ MOTOR MERKEZİ ============ -->
+<div class="sheet" id="engineSheet" onclick="if(event.target===this)closeSheet('engineSheet')">
+  <div class="sheet-inner">
+    <div class="grab"></div>
+    <h2>Motor Merkezi</h2>
+    <div class="sub" id="engineSub">Sırayla dener, çalışanı kullanır</div>
+    <div class="hint" style="margin:-6px 0 10px">Bulut ücretsiz: 30 sn'de 1 cevap. Sınırsız için cihaz modeli.</div>
+
+    <div id="engineList" style="margin-top:10px"></div>
+
+    <div style="margin-top:14px">
+      <div class="h-title"><svg class="ic"><use href="#i-settings"/></svg>Kendi anahtarın (opsiyonel)</div>
+      <div class="grid2" style="margin-bottom:8px">
+        <select id="keyProv" class="field" style="padding:9px 12px;font-size:12.5px">
+          <option value="">Seç…</option>
+          <option value="deepseek">DeepSeek</option>
+          <option value="groq">Groq</option>
+          <option value="openrouter">OpenRouter (ücretsiz modeller)</option>
+          <option value="gemini">Gemini</option>
+        </select>
+        <button class="btn sm soft" onclick="saveKey()">Kaydet</button>
+      </div>
+      <input id="keyInput" class="field" type="password" placeholder="sk-…" style="font-size:12.5px;font-family:ui-monospace,monospace">
+      <div id="keyState" class="hint" style="margin-top:6px"></div>
+    </div>
+
+    <div class="card tight" style="margin-top:12px">
+      <div class="label">Ollama (kendi bilgisayarın)</div>
+      <div class="row">
+        <input id="ollamaUrl" class="field" placeholder="http://192.168.1.20:11434" style="flex:1;font-size:12px;font-family:ui-monospace,monospace">
+        <button class="btn sm ghost" onclick="saveOllama()">Kaydet</button>
+      </div>
+      <div class="hint" id="ollamaTest" style="margin-top:6px"></div>
+    </div>
+
+    <button class="btn ghost wide" style="margin-top:12px" onclick="closeSheet('engineSheet')">Kapat</button>
+  </div>
+</div>
+
+<!-- ============ KOD KÜTÜPHANESİ ============ -->
+<div class="sheet" id="snipSheet" onclick="if(event.target===this)closeSheet('snipSheet')">
+  <div class="sheet-inner">
+    <div class="grab"></div>
+    <h2>Kod Kütüphanesi</h2>
+    <div class="sub">Cihazında</div>
+    <div id="snipList"></div>
+    <button class="btn ghost wide" style="margin-top:10px" onclick="closeSheet('snipSheet')">Kapat</button>
+  </div>
+</div>
+
+<!-- ============ MODEL SHEET ============ -->
+<div class="sheet" id="modelSheet" onclick="if(event.target===this)closeSheet('modelSheet')">
+  <div class="sheet-inner">
+    <div class="grab"></div>
+    <h2>Beyin Seç</h2>
+    <div class="sub">Bir kez indir, sonra offline</div>
+    <div id="modelList"></div>
+    <button class="btn ghost wide" style="margin-top:10px" onclick="closeSheet('modelSheet')">Kapat</button>
+  </div>
+</div>
+
+<!-- ============ AYARLAR SHEET ============ -->
+<div class="sheet" id="settingsSheet" onclick="if(event.target===this)closeSheet('settingsSheet')">
+  <div class="sheet-inner">
+    <div class="grab"></div>
+    <h2>Ayarlar</h2>
+    <div class="sub">Cihazında kalır</div>
+
+    <div class="h-title" style="margin-top:4px"><svg class="ic"><use href="#i-shield"/></svg>Doğruluk</div>
+    <div class="switch" onclick="toggleSetting('verify',this)">
+      <div class="li" style="width:34px;height:34px;border-radius:11px;background:rgba(139,92,246,.14);display:grid;place-items:center;color:#c4b5fd"><svg class="ic ic-s"><use href="#i-check"/></svg></div>
+      <div class="sn"><b>Çift Doğrulama</b><span>Her cevabı ikinci kez denetler</span></div>
+      <div class="tgl on" data-key="verify"></div>
+    </div>
+    <div class="switch" onclick="toggleSetting('research',this)">
+      <div class="li" style="width:34px;height:34px;border-radius:11px;background:rgba(6,182,212,.14);display:grid;place-items:center;color:#67e8f9"><svg class="ic ic-s"><use href="#i-microscope"/></svg></div>
+      <div class="sn"><b>Araştırmacı Modu</b><span>Adım + kaynak + karşıt görüş + güven</span></div>
+      <div class="tgl on" data-key="research"></div>
+    </div>
+    <div class="card tight" style="margin-bottom:8px">
+      <div class="label">Cevap uzunluğu</div>
+      <div class="row" style="gap:6px">
+        <button class="btn sm" id="len-short" onclick="setLen('short')" style="flex:1">Kısa</button>
+        <button class="btn sm" id="len-normal" onclick="setLen('normal')" style="flex:1">Orta</button>
+        <button class="btn sm" id="len-long" onclick="setLen('long')" style="flex:1">Detaylı</button>
+      </div>
+    </div>
+
+    <div class="switch" onclick="toggleSetting('tts',this)">
+      <div class="li" style="width:34px;height:34px;border-radius:11px;background:rgba(34,197,94,.14);display:grid;place-items:center;color:#86efac"><svg class="ic ic-s"><use href="#i-volume"/></svg></div>
+      <div class="sn"><b>Sesli Okuma</b><span id="voiceNow">Cevapları sesle okur</span></div>
+      <div class="tgl" data-key="tts"></div>
+    </div>
+
+    <div class="card tight" style="margin-bottom:8px">
+      <div class="label">Ses</div>
+      <select id="voiceSel" class="field" style="padding:9px 12px;font-size:12.5px;margin-bottom:9px"></select>
+      <div style="display:flex;align-items:center;gap:9px">
+        <span class="label" style="margin:0;white-space:nowrap">Hız</span>
+        <input id="rateRange" type="range" min="0.7" max="1.4" step="0.05" value="1.03"
+          style="flex:1;accent-color:#8b5cf6;height:22px" oninput="setRate(this.value)">
+        <span id="rateVal" style="font-size:11.5px;font-weight:800;color:#c4b5fd;width:34px;text-align:right">1.0×</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;margin-top:9px">
+        <span class="label" style="margin:0;white-space:nowrap">Perde</span>
+        <input id="pitchRange" type="range" min="0.7" max="1.3" step="0.05" value="1"
+          style="flex:1;accent-color:#8b5cf6;height:22px" oninput="setPitch(this.value)">
+        <span id="pitchVal" style="font-size:11.5px;font-weight:800;color:#c4b5fd;width:34px;text-align:right">1.0</span>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <button class="btn soft sm" style="flex:1" onclick="testVoice()">
+          <svg class="ic ic-s"><use href="#i-play"/></svg>Örnek dinle
+        </button>
+        <button class="btn ghost sm" onclick="reloadVoices()">
+          <svg class="ic ic-s"><use href="#i-refresh"/></svg>Yenile
+        </button>
+      </div>
+      <button class="btn primary sm wide" style="margin-top:8px" onclick="closeSheet('settingsSheet');setTimeout(()=>openSheet('voiceSetupSheet'),150)">
+        <svg class="ic ic-s"><use href="#i-volume"/></svg>Ses kurulumu (robotik sesi düzelt)
+      </button>
+      <div id="voiceFix" hidden style="margin-top:9px;font-size:11.5px;line-height:1.6;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.28);border-radius:11px;padding:10px;color:#e7e7ef"></div>
+      <button class="btn ghost sm wide" style="margin-top:8px" onclick="runVoiceDiag()">
+        <svg class="ic ic-s"><use href="#i-search"/></svg>Ses tanılama (sorun tespiti)
+      </button>
+      <div id="diagOut" hidden style="margin-top:8px;font-size:11px;line-height:1.65;background:#08080c;border:1px solid var(--line);border-radius:11px;padding:10px;font-family:ui-monospace,monospace;white-space:pre-wrap;color:#c9c9d6"></div>
+      <div class="hint" id="voiceHint" style="margin-top:7px"></div>
+    </div>
+
+    <div class="switch" onclick="closeSheet('settingsSheet');openSheet('engineSheet')">
+      <div class="li" style="width:34px;height:34px;border-radius:11px;background:rgba(59,130,246,.14);display:grid;place-items:center;color:#93c5fd"><svg class="ic ic-s"><use href="#i-brain"/></svg></div>
+      <div class="sn"><b>Motor Merkezi</b><span id="engineSummary">Bulut · cihaz · Ollama · kendi anahtarın</span></div>
+      <svg class="ic ic-s" style="color:var(--dim2)"><use href="#i-settings"/></svg>
+    </div>
+
+    <div class="h-title" style="margin-top:14px"><svg class="ic"><use href="#i-history"/></svg>Veri</div>
+    <div class="row">
+      <button class="btn sm ghost" onclick="exportChat()"><svg class="ic ic-s"><use href="#i-download"/></svg>Sohbeti kaydet</button>
+      <button class="btn sm danger" onclick="clearAll()"><svg class="ic ic-s"><use href="#i-trash"/></svg>Tümünü sil</button>
+    </div>
+
+    <button class="btn ghost wide" style="margin-top:10px" onclick="closeSheet('settingsSheet')">Kapat</button>
+  </div>
+</div>
+
+<div id="fileBanner" hidden style="margin:0 16px 8px;padding:10px 12px;border-radius:14px;
+  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.28);font-size:11.5px;line-height:1.55;color:#fcd34d">
+  <b>Dosyadan açıldı (file://)</b> — mikrofon ve bazı tarayıcı izinleri kısıtlı olabilir. Diğer her şey (kod, özet, OCR, PDF, bulut motoru) çalışır.
+  <button onclick="this.parentNode.hidden=true" style="float:right;color:#fcd34d;font-weight:900;margin-left:8px">✕</button>
+</div>
+
+<div id="toasts"></div>
+
+<script>
+/* ============================================================
+   PERFECTCODE STÜDYO — Çekirdek
+   Tek dosya. Sunucu yok. Anahtar yok. Kota yok.
+   ============================================================ */
+"use strict";
+
+/* -------------------- 0. KISAYOLLAR -------------------- */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const clamp = (n,a,b) => Math.min(b, Math.max(a,n));
+
+/* -------------------- 1. DURUM -------------------- */
+const CFG_KEY = "pc_cfg_v3";
+const CHAT_KEY = "pc_chat_v3";
+
+const S = {
+  mode: "chat",
+  engine: null,          // WebLLM engine
+  engineId: null,        // yüklü model id
+  loading: false,
+  busy: false,
+  abort: false,
+  msgs: [],              // {role, content, meta}
+  cfg: { verify: true, research: true, tts: false, ollama: "", handsFree: false, cloud: true, web: true, key: "", keyProv: "", ollamaModel: "", voiceName: "", rate: 1.03, pitch: 1, answerLen: "short" },
+  recognition: null,
+  listening: false,
+  voiceTarget: "chat",
+  pyodide: null,
+  code: { lang: "Python", text: "", lastPrompt: "" },
+  pdf: { name: "", text: "", pages: 0 },
+  image: null,
+  images: [],
+  project: [],
+  lastAnswer: "",
+};
+
+function loadCfg(){
+  try { Object.assign(S.cfg, JSON.parse(localStorage.getItem(CFG_KEY) || "{}")); } catch {}
+}
+function saveCfg(){
+  try { localStorage.setItem(CFG_KEY, JSON.stringify(S.cfg)); } catch {}
+}
+function loadChat(){
+  try {
+    const raw = JSON.parse(localStorage.getItem(CHAT_KEY) || "[]");
+    if (Array.isArray(raw)) S.msgs = raw.slice(-40);
+  } catch {}
+}
+function saveChat(){
+  try {
+    localStorage.setItem(CHAT_KEY, JSON.stringify(S.msgs.slice(-40)));
+    localStorage.setItem("pc_mode_v3", S.mode || "chat");
+    localStorage.setItem("pc_saved_at", String(Date.now()));
+  } catch {}
+}
+function restoreSession(){
+  let n = 0;
+  try {
+    const raw = JSON.parse(localStorage.getItem(CHAT_KEY) || "[]");
+    if (Array.isArray(raw) && raw.length){
+      S.msgs = raw.slice(-40);
+      n = S.msgs.length;
+    }
+  } catch {}
+  return n;
+}
+
+/* -------------------- 2. BİLDİRİM -------------------- */
+function toast(msg, type="info", ms=2600){
+  const wrap = $("#toasts");
+  const el = document.createElement("div");
+  el.className = "toast " + type;
+  const icon = type === "ok" ? "i-check" : type === "err" ? "i-x" : "i-info";
+  el.innerHTML = `<svg class="ic"><use href="#${icon}"/></svg><span>${esc(msg)}</span>`;
+  wrap.appendChild(el);
+  setTimeout(() => {
+    el.style.transition = "opacity .25s, transform .25s";
+    el.style.opacity = "0"; el.style.transform = "translateY(8px)";
+    setTimeout(() => el.remove(), 260);
+  }, ms);
+}
+
+/* -------------------- 3. SEKMELER -------------------- */
+function setMode(mode){
+  S.mode = mode;
+  $$("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.mode === mode));
+  ["chat","voice","code","research","media"].forEach(m => {
+    const el = $("#pane-" + m);
+    if (el) el.hidden = m !== mode;
+  });
+  if (mode !== "voice" && typeof voiceStop === "function") voiceStop(true);
+  const chatModes = mode === "chat" || mode === "research";
+  $("#composer").style.display = chatModes ? "flex" : "none";
+  $("#userInput").placeholder = mode === "research"
+    ? "Araştırılacak soru…"
+    : "Her şeyi sor…";
+  if (mode === "chat") setTimeout(() => $("#msgs").lastElementChild?.scrollIntoView({behavior:"smooth", block:"end"}), 60);
+  if (mode === "voice"){
+    updateCapBar();
+    const btn = document.getElementById("voiceMainBtn");
+    if (btn && !VC.on){
+      btn.innerHTML = srAvailable()
+        ? '<svg class="ic ic-s"><use href="#i-mic"/></svg>Sohbete başla'
+        : '<svg class="ic ic-s"><use href="#i-info"/></svg>Neden çalışmıyor?';
+    }
+  }
+}
+$$("#tabs button").forEach(b => b.addEventListener("click", () => setMode(b.dataset.mode)));
+
+/* -------------------- 4. SHEET -------------------- */
+function openSheet(id){
+  $("#" + id).classList.add("on");
+  if (id === "voiceSetupSheet"){ renderVoiceTestList(); }
+}
+function closeSheet(id){ $("#" + id).classList.remove("on"); }
+
+/* -------------------- 5. MODELLER -------------------- */
+const MODELS = [
+  { id:"Qwen2.5-0.5B-Instruct-q4f16_1-MLC", name:"Qwen 2.5 · 0.5B", size:"~0.4 GB", vram:"Her telefonda",
+    desc:"En hızlı. Basit sorular ve kısa kod. Eski cihazlar için." },
+  { id:"Qwen2.5-1.5B-Instruct-q4f16_1-MLC", name:"Qwen 2.5 · 1.5B", size:"~1.0 GB", vram:"4 GB+ RAM",
+    desc:"Dengeli. Türkçe iyi. Günlük kullanım için önerilen." , pick:true },
+  { id:"Llama-3.2-1B-Instruct-q4f16_1-MLC", name:"Llama 3.2 · 1B", size:"~0.7 GB", vram:"4 GB+ RAM",
+    desc:"Hızlı ve tutarlı. Kod ve sohbet dengesi iyi." },
+  { id:"gemma-2-2b-it-q4f16_1-MLC", name:"Gemma 2 · 2B", size:"~1.4 GB", vram:"6 GB+ RAM",
+    desc:"Daha derin akıl yürütme. Yeni telefonlarda akıcı." },
+  { id:"Phi-3.5-mini-instruct-q4f16_1-MLC", name:"Phi 3.5 Mini", size:"~2.1 GB", vram:"8 GB+ RAM",
+    desc:"En zeki seçenek. Kod ve analizde en iyi. Yavaş iner." },
+];
+
+function renderModels(){
+  const box = $("#modelList");
+  box.innerHTML = MODELS.map(m => `
+    <div class="list-item ${S.engineId === m.id ? "sel" : ""}" onclick="pickModel('${m.id}')">
+      <div class="li"><svg class="ic"><use href="#i-brain"/></svg></div>
+      <div class="ln">
+        <b>${esc(m.name)} ${m.pick ? '<span class="chip" style="margin-left:4px">ÖNERİLEN</span>' : ""}</b>
+        <span>${esc(m.size)} · ${esc(m.vram)} · ${esc(m.desc)}</span>
+      </div>
+      <div class="check"><svg class="ic ic-s"><use href="#i-check"/></svg></div>
+    </div>`).join("") + `
+    <div class="list-item ${!S.engineId ? "sel" : ""}" onclick="useLocalEngine()">
+      <div class="li"><svg class="ic"><use href="#i-shield"/></svg></div>
+      <div class="ln"><b>Yerel Motor (indirme yok)</b><span>0 MB · anında · özet + iskelet + araçlar. Model yüklemeden çalışır.</span></div>
+      <div class="check"><svg class="ic ic-s"><use href="#i-check"/></svg></div>
+    </div>`;
+}
+
+function useLocalEngine(){
+  S.engine = null; S.engineId = null; renderModels(); closeSheet("modelSheet");
+  setProvider("local");
+}
+
+async function pickModel(id){
+  if (S.loading) return toast("Zaten yükleniyor, bekle", "err");
+  const m = MODELS.find(x => x.id === id);
+  closeSheet("modelSheet");
+  S.loading = true;
+  $("#loadWrap").hidden = false;
+  $("#loadBar").classList.add("indet");
+  $("#loadText").textContent = m.name + " indiriliyor";
+  $("#loadPct").textContent = "…";
+  const chip = document.getElementById("engineChip");
+  if (chip) chip.textContent = "İniyor";
+
+  try {
+    if (!navigator.onLine) throw new Error("offline");
+
+    const mod = await import("https://esm.run/@mlc-ai/web-llm@0.2.79");
+    const engine = await mod.CreateMLCEngine(id, {
+      initProgressCallback: p => {
+        const pct = Math.round((p.progress || 0) * 100);
+        $("#loadBar").classList.remove("indet");
+        $("#loadBar").style.width = pct + "%";
+        $("#loadPct").textContent = pct + "%";
+        if (p.text) $("#loadText").textContent = p.text.slice(0, 46);
+      }
+    });
+    S.engine = engine;
+    S.engineId = id;
+    $("#loadWrap").hidden = true;
+    $("#loadBar").style.width = "0%";
+    setProvider("device");
+    $("#modelList") && renderModels();
+    toast(m.name + " hazır", "ok", 2000);
+  } catch (e) {
+    $("#loadWrap").hidden = true;
+    $("#loadBar").classList.remove("indet");
+    S.loading = false;
+    useLocalEngine();
+    const offline = String(e.message).includes("offline") || !navigator.onLine;
+    toast(offline
+      ? "İnternet yok. Yerel motor açıldı."
+      : "Model inemedi (ağ/CDN engeli). Yerel motor açıldı.", "err", 4200);
+  } finally {
+    S.loading = false;
+  }
+}
+
+/* -------------------- 6. LLM KÖPRÜSÜ -------------------- */
+function brevityRule(){
+  const L = S.cfg.answerLen || "short";
+  if (L === "short") return `
+UZUNLUK: ÇOK KISA. Selamlama/sohbet sorularında 1-2 cümle. Teknik soruda en fazla 5 madde veya 150 kelime. Gereksiz giriş ("Harika soru", "Tabii ki") YASAK. Direkt cevaba başla.`;
+  if (L === "long") return `
+UZUNLUK: DETAYLI. Konuyu alt başlıklara böl, örnek ver, kenar durumları belirt.`;
+  return `
+UZUNLUK: ORTA. 3-6 madde veya ~250 kelime. Öz, gereksiz tekrar yok.`;
+}
+
+function sysPrompt(mode){
+  const base = `Sen PerfectCode Stüdyo adlı, kıdemli yazılım mimarı seviyesinde bir asistansın. Türkçe cevap ver.${brevityRule()}
+Kurallar:
+- Uydurma. Bilmiyorsan "emin değilim" de.
+- Kod: çalışır, tam, tip güvenli, güvenli (OWASP), test edilebilir olsun.
+- Kısa ve yoğun yaz; gereksiz giriş cümlesi yok.
+- Sayı/iddia verirsen kaynağın türünü belirt.`;
+  if (mode === "research") return base + `
+ARAŞTIRMACI MODU: cevabı şu yapıda ver:
+### Kısa Cevap
+### Adım Adım Akıl Yürütme (1. 2. 3.)
+### Kanıt ve Kaynak Türü (akademik / resmî / haber / uzman görüşü — hangisi olduğunu yaz)
+### Karşıt Görüş
+### Güven: %NN (ve neden bu oran)`;
+  if (mode === "code") return base + `
+SADECE kod bloğu döndür. Açıklama yazma. Kod üstte tek yorum satırında amaç yazsın.`;
+  return base;
+}
+
+/* -------------------- 6b. MOTOR ZİNCİRİ --------------------
+   Sıra: kendi anahtarın → bulut (anahtarsız) → cihaz (WebLLM) → Ollama → yerel
+   Biri çökerse sıradakine geçer. Kullanıcı hiçbir şey yapmaz.
+------------------------------------------------------------ */
+const CLOUD_EP = "https://text.pollinations.ai/openai";
+const CLOUD_MODEL = "GPT-OSS 20B";
+const KEY_PROV = {
+  deepseek:  { name:"DeepSeek",  url:"https://api.deepseek.com/chat/completions", model:"deepseek-chat" },
+  groq:      { name:"Groq",      url:"https://api.groq.com/openai/v1/chat/completions", model:"llama-3.3-70b-versatile" },
+  openrouter:{ name:"OpenRouter", url:"https://openrouter.ai/api/v1/chat/completions", model:"deepseek/deepseek-chat-v3.1:free" },
+  gemini:    { name:"Gemini",    url:"https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", model:"gemini-2.0-flash" },
+};
+
+async function fetchJSON(url, opts, ms = 50000){
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), ms);
+  try {
+    const r = await fetch(url, { ...opts, signal: ctl.signal });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return await r.json();
+  } finally { clearTimeout(timer); }
+}
+
+let CLOUD_COOL_UNTIL = 0;
+
+async function callCloud(messages, temp, max, onToken){
+  if (Date.now() < CLOUD_COOL_UNTIL){
+    const err = new Error("hız sınırı (30 sn'de 1)"); err.code = "RATE"; throw err;
+  }
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 60000);
+  let r;
+  try {
+    r = await fetch(CLOUD_EP, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "openai", messages, temperature: temp, max_tokens: max,
+        stream: !!onToken, referrer: "perfectcode-studio",
+      }),
+      signal: ctl.signal,
+    });
+  } catch (e){
+    clearTimeout(timer);
+    throw new Error(e.name === "AbortError" ? "zaman aşımı" : "ağ hatası");
+  }
+  if (!r.ok){
+    clearTimeout(timer);
+    if (r.status === 402 || r.status === 429){
+      CLOUD_COOL_UNTIL = Date.now() + 31000;
+      const err = new Error("hız sınırı (30 sn'de 1)"); err.code = "RATE"; throw err;
+    }
+    throw new Error("HTTP " + r.status);
+  }
+
+  // Akışsız
+  if (!onToken){
+    const j = await r.json();
+    clearTimeout(timer);
+    const c = j.choices?.[0]?.message?.content;
+    if (!c || !c.trim()) throw new Error("boş cevap");
+    return c.trim();
+  }
+
+  // Akışlı: ilk kelime ~1 sn'de gelir
+  const reader = r.body.getReader();
+  const dec = new TextDecoder();
+  let buf = "", full = "";
+  try {
+    while (true){
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split("\n");
+      buf = lines.pop() || "";
+      for (const line of lines){
+        const s = line.trim();
+        if (!s.startsWith("data:")) continue;
+        const d = s.slice(5).trim();
+        if (!d || d === "[DONE]") continue;
+        try {
+          const j = JSON.parse(d);
+          const t = j.choices?.[0]?.delta?.content || "";
+          if (t){ full += t; onToken(t); }
+        } catch {}
+      }
+    }
+  } finally { clearTimeout(timer); reader.cancel?.().catch(() => {}); }
+
+  if (!full.trim()) throw new Error("boş cevap");
+  return full.trim();
+}
+
+async function callKey(messages, temp, max){
+  const cfg = S.cfg;
+  const p = KEY_PROV[cfg.keyProv];
+  if (!p || !cfg.key) throw new Error("anahtar yok");
+  const j = await fetchJSON(p.url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + cfg.key },
+    body: JSON.stringify({ model: p.model, messages, temperature: temp, max_tokens: max }),
+  });
+  const c = j.choices?.[0]?.message?.content;
+  if (!c) throw new Error("boş cevap");
+  return c.trim();
+}
+
+async function callDevice(messages, temp, max){
+  if (!S.engine) throw new Error("model yok");
+  const r = await S.engine.chat.completions.create({ messages, temperature: temp, max_tokens: max });
+  const c = r.choices?.[0]?.message?.content;
+  if (!c) throw new Error("boş cevap");
+  return c.trim();
+}
+
+async function callOllama(messages, temp, max){
+  if (!S.cfg.ollama) throw new Error("ollama yok");
+  const j = await fetchJSON(S.cfg.ollama.replace(/\/$/, "") + "/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ model: S.cfg.ollamaModel || "qwen2.5-coder:1.5b", messages, stream: false, options: { temperature: temp } }),
+  }, 60000);
+  const c = j.message?.content;
+  if (!c) throw new Error("boş cevap");
+  return c.trim();
+}
+
+function providerPlan(){
+  const online = navigator.onLine;
+  const plan = [];
+  if (S.cfg.keyProv && S.cfg.key && online) plan.push("key");
+  if (S.cfg.cloud !== false && online && Date.now() > CLOUD_COOL_UNTIL) plan.push("cloud");
+  if (S.engine) plan.push("device");
+  if (S.cfg.ollama) plan.push("ollama");
+  return plan;
+}
+
+const PROVIDER_LABEL = { key:"Anahtar", cloud:"Bulut", device:"Cihaz", ollama:"Ollama", local:"Yerel" };
+
+function setProvider(id){
+  S.provider = id;
+  const chip = document.getElementById("engineChip");
+  const dot = document.getElementById("statusDot");
+  if (chip && PROVIDER_LABEL[id]) chip.textContent = PROVIDER_LABEL[id];
+  if (dot){
+    dot.className = "dot" + (id === "local" ? " off" : id === "ollama" ? " wait" : "");
+  }
+}
+
+async function llm(messages, { mode="chat", temp=0.4, max=1400, onToken } = {}){
+  const plan = providerPlan();
+  const errors = [];
+  for (const id of plan){
+    try {
+      let out;
+      if (id === "key")    out = await callKey(messages, temp, max);
+      if (id === "cloud")  out = await callCloud(messages, temp, max, onToken);
+      if (id === "device") out = await callDevice(messages, temp, max);
+      if (id === "ollama") out = await callOllama(messages, temp, max);
+      if (out){ setProvider(id); return out; }
+    } catch (e){ errors.push(id + ": " + e.message); }
+  }
+  if (errors.length) console.warn("motor zinciri:", errors.join(" | "));
+  if (S.engine) setProvider("device");
+  else setProvider("local");
+  if (Date.now() < CLOUD_COOL_UNTIL){
+    const dot = document.getElementById("statusDot");
+    if (dot) dot.className = "dot wait";
+  }
+  return null;
+}
+
+/* Motor Merkezi arayüzü */
+function renderEngines(){
+  const box = $("#engineList");
+  if (!box) return;
+  const rows = [
+    { id:"cloud", title:"Bulut Ücretsiz", tag:"ÖNERİLEN", desc:CLOUD_MODEL + " · anahtarsız · kotasız",
+      on: S.cfg.cloud !== false, act:"toggleEngine('cloud')", icon:"i-brain" },
+    { id:"key", title:"Kendi Anahtarın", tag:"", desc: S.cfg.keyProv ? (KEY_PROV[S.cfg.keyProv]?.name + " bağlı") : "DeepSeek · Groq · OpenRouter · Gemini",
+      on: !!(S.cfg.keyProv && S.cfg.key), act:"", icon:"i-shield" },
+    { id:"device", title:"Cihazda (WebLLM)", tag:"OFFLINE", desc: S.engineId ? (MODELS.find(m=>m.id===S.engineId)?.name + " yüklü") : "Model indir → internetsiz çalış",
+      on: !!S.engine, act:"openSheet('modelSheet')", icon:"i-download" },
+    { id:"ollama", title:"Ollama", tag:"EV AĞI", desc: S.cfg.ollama || "Bilgisayarındaki sunucu",
+      on: !!S.cfg.ollama, act:"", icon:"i-settings" },
+  ];
+  box.innerHTML = rows.map(r => `
+    <div class="list-item ${r.on ? "sel" : ""}" ${r.act ? `onclick="${r.act}"` : ""}>
+      <div class="li"><svg class="ic"><use href="#${r.icon}"/></svg></div>
+      <div class="ln"><b>${esc(r.title)} ${r.tag ? `<span class="chip" style="margin-left:4px">${r.tag}</span>` : ""}</b><span>${esc(r.desc)}</span></div>
+      <div class="check" style="${r.on ? "" : "opacity:.3"}"><svg class="ic ic-s"><use href="#${r.on ? "i-check" : "i-x"}"/></svg></div>
+    </div>`).join("");
+  $("#engineSub").textContent = "Sırayla dener, çalışanı kullanır · şu an: " + (PROVIDER_LABEL[S.provider || (navigator.onLine ? "cloud" : "local")] || "—");
+  const ks = $("#keyState");
+  if (ks) ks.textContent = S.cfg.keyProv && S.cfg.key
+    ? (KEY_PROV[S.cfg.keyProv]?.name + " kayıtlı · " + S.cfg.key.slice(0, 4) + "…")
+    : "Anahtar cihazda saklanır, hiçbir yere gönderilmez.";
+  if ($("#engineSummary")) $("#engineSummary").textContent =
+    [S.cfg.cloud !== false ? "Bulut" : null, S.engine ? "Cihaz" : null, S.cfg.ollama ? "Ollama" : null, S.cfg.key ? "Anahtar" : null]
+      .filter(Boolean).join(" · ") || "Hiçbiri açık değil";
+}
+function toggleEngine(id){
+  if (id === "cloud") S.cfg.cloud = S.cfg.cloud === false;
+  saveCfg(); renderEngines();
+}
+function saveKey(){
+  const prov = $("#keyProv").value;
+  const val = $("#keyInput").value.trim();
+  if (!prov || !val) { S.cfg.keyProv = ""; S.cfg.key = ""; saveCfg(); renderEngines(); return toast("Anahtar temizlendi", "ok", 1500); }
+  S.cfg.keyProv = prov; S.cfg.key = val;
+  saveCfg(); renderEngines();
+  $("#keyInput").value = "";
+  toast(KEY_PROV[prov].name + " bağlandı", "ok");
+}
+
+/* -------------------- 7. YEREL MOTOR (offline, model gerekmez) -------------------- */
+const TR_STOP = new Set("bir bu ve ile için de da ki ne çok daha gibi olan olarak ise ama fakat veya her hem şu o ben sen biz siz onlar değil var yok en çünkü ancak göre kadar sonra önce üzere için-mi mi mı mu mü the of and to in a is are was were for on with as by that this it from at be or an".split(/\s+/));
+
+function sentences(text){
+  return String(text || "")
+    .replace(/\s+/g, " ")
+    .split(/(?<=[.!?…])\s+(?=[A-ZÇĞİÖŞÜ0-9"“])/)
+    .map(s => s.trim())
+    .filter(s => s.length > 30 && s.length < 600);
+}
+
+function wordFreq(text){
+  const freq = Object.create(null);
+  const words = String(text).toLowerCase().match(/[a-zçğıöşü]{3,}/gi) || [];
+  for (const w of words){
+    if (TR_STOP.has(w)) continue;
+    freq[w] = (freq[w] || 0) + 1;
+  }
+  return freq;
+}
+
+/** Yerel özetleyici: cümle skorlama (frekans + konum + uzunluk). Offline çalışır. */
+function localSummarize(text, n = 8){
+  const sents = sentences(text);
+  if (sents.length <= n) return { summary: sents, keywords: Object.entries(wordFreq(text)).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>x[0]) };
+  const freq = wordFreq(text);
+  const max = Math.max(1, ...Object.values(freq));
+  const scored = sents.map((s, i) => {
+    const ws = s.toLowerCase().match(/[a-zçğıöşü]{3,}/gi) || [];
+    let score = 0;
+    for (const w of ws) if (freq[w]) score += freq[w] / max;
+    score /= Math.sqrt(ws.length || 1);
+    score += Math.max(0, 1.2 - i * 0.012);      // baştaki cümleler hafif ağır
+    if (/\d/.test(s)) score += 0.18;             // sayı içeren cümle
+    if (s.length < 60) score *= 0.8;
+    return { s, i, score };
+  });
+  const top = scored.sort((a,b) => b.score - a.score).slice(0, n).sort((a,b) => a.i - b.i);
+  return {
+    summary: top.map(x => x.s),
+    keywords: Object.entries(freq).sort((a,b)=>b[1]-a[1]).slice(0,10).map(x=>x[0])
+  };
+}
+
+/* Kod iskeleti üretici: her dil için gerçek, çalışabilir başlangıç */
+function localScaffold(prompt, lang){
+  const name = (prompt || "gorev").toLowerCase()
+    .replace(/[çğıöşü]/g, c => ({"ç":"c","ğ":"g","ı":"i","ö":"o","ş":"s","ü":"u"}[c]))
+    .replace(/[^a-z0-9 ]/g, " ").trim().split(/\s+/).slice(0,3)
+    .map((w,i) => i ? w[0].toUpperCase()+w.slice(1) : w).join("") || "gorev";
+  const Title = name[0].toUpperCase() + name.slice(1);
+  const T = {
+    Python: `"""${prompt}
+Yerel iskelet — model yüklü değilken üretildi.
+Çalışır, test edilebilir, tip güvenli. TODO'ları doldur.
+"""
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Protocol
+
+
+class Hata(Exception):
+    """Alan hatası."""
+
+
+@dataclass(frozen=True)
+class Girdi:
+    deger: str
+
+
+class ${Title}Portu(Protocol):
+    def calistir(self, girdi: Girdi) -> str: ...
+
+
+class ${Title}Servisi:
+    def __init__(self, port: ${Title}Portu) -> None:
+        self._port = port
+
+    def calistir(self, girdi: Girdi) -> str:
+        if not girdi.deger.strip():
+            raise Hata("deger bos olamaz")
+        return self._port.calistir(girdi)
+
+
+# --- test ---
+class SahtePort:
+    def calistir(self, girdi: Girdi) -> str:
+        return girdi.deger.upper()
+
+
+if __name__ == "__main__":
+    servis = ${Title}Servisi(SahtePort())
+    print(servis.calistir(Girdi("merhaba")))
+    assert servis.calistir(Girdi("ab")) == "AB"
+    print("test gecti")`,
+
+    JavaScript: `/**
+ * ${prompt}
+ * Yerel iskelet — model yüklü değilken üretildi.
+ */
+export class ${Title}Hatasi extends Error {}
+
+export function ${name}(girdi, { sinir = 1000 } = {}) {
+  if (typeof girdi !== "string" || !girdi.trim()) {
+    throw new ${Title}Hatasi("girdi bos olamaz");
+  }
+  if (girdi.length > sinir) throw new ${Title}Hatasi("girdi cok uzun");
+  return girdi.trim();
+}
+
+// --- çalışır örnek ---
+console.log(${name}("  merhaba  "));
+console.assert(${name}("abc") === "abc", "trim calismadi");`,
+
+    TypeScript: `/** ${prompt} — Yerel iskelet */
+export type Sonuc<T> = { ok: true; veri: T } | { ok: false; hata: string };
+
+export interface ${Title}Girdi { readonly deger: string }
+
+export class ${Title}Hatasi extends Error {}
+
+export function ${name}(girdi: ${Title}Girdi): Sonuc<string> {
+  if (!girdi.deger.trim()) return { ok: false, hata: "deger bos" };
+  return { ok: true, veri: girdi.deger.trim() };
+}
+
+console.log(${name}({ deger: " merhaba " }));`,
+
+    Java: `/** ${prompt} — Yerel iskelet */
+public final class ${Title} {
+    public static final class Hata extends RuntimeException {
+        public Hata(String m) { super(m); }
+    }
+
+    private ${Title}() {}
+
+    public static String calistir(String girdi) {
+        if (girdi == null || girdi.isBlank()) throw new Hata("girdi bos");
+        return girdi.trim();
+    }
+
+    public static void main(String[] args) {
+        System.out.println(calistir("  merhaba  "));
+    }
+}`,
+
+    "C#": `// ${prompt} — Yerel iskelet
+using System;
+
+public sealed class ${Title}
+{
+    public sealed class Hata : Exception { public Hata(string m) : base(m) {} }
+
+    public static string Calistir(string girdi)
+    {
+        if (string.IsNullOrWhiteSpace(girdi)) throw new Hata("girdi bos");
+        return girdi.Trim();
+    }
+
+    public static void Main() => Console.WriteLine(Calistir("  merhaba  "));
+}`,
+
+    "C++": `// ${prompt} — Yerel iskelet
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+namespace ${name} {
+inline std::string calistir(const std::string& girdi) {
+    if (girdi.empty()) throw std::invalid_argument("girdi bos");
+    return girdi;
+}
+} // namespace
+
+int main() {
+    std::cout << ${name}::calistir("merhaba") << "\\n";
+    return 0;
+}`,
+
+    Go: `// ${prompt} — Yerel iskelet
+package main
+
+import (
+    "errors"
+    "fmt"
+    "strings"
+)
+
+func ${Title}(girdi string) (string, error) {
+    if strings.TrimSpace(girdi) == "" {
+        return "", errors.New("girdi bos")
+    }
+    return strings.TrimSpace(girdi), nil
+}
+
+func main() {
+    out, err := ${Title}("  merhaba  ")
+    if err != nil {
+        fmt.Println("hata:", err)
+        return
+    }
+    fmt.Println(out)
+}`,
+
+    Rust: `// ${prompt} — Yerel iskelet
+#[derive(Debug)]
+pub struct Hata(pub String);
+
+impl std::fmt::Display for Hata {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+impl std::error::Error for Hata {}
+
+pub fn ${name}(girdi: &str) -> Result<String, Hata> {
+    let t = girdi.trim();
+    if t.is_empty() { return Err(Hata("girdi bos".into())); }
+    Ok(t.to_string())
+}
+
+fn main() {
+    println!("{:?}", ${name}("  merhaba  "));
+}`,
+
+    PHP: `<?php
+// ${prompt} — Yerel iskelet
+declare(strict_types=1);
+
+final class ${Title}Hatasi extends RuntimeException {}
+
+function ${name}(string $girdi): string {
+    if (trim($girdi) === '') throw new ${Title}Hatasi('girdi bos');
+    return trim($girdi);
+}
+
+echo ${name}('  merhaba  ') . PHP_EOL;`,
+
+    SQL: `-- ${prompt} — Yerel iskelet
+CREATE TABLE IF NOT EXISTS kayit (
+    id        BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    ad        TEXT NOT NULL CHECK (length(ad) BETWEEN 1 AND 200),
+    durum     TEXT NOT NULL DEFAULT 'aktif',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS ix_kayit_durum ON kayit (durum);
+
+-- N+1 yerine tek sorgu, LIMIT zorunlu
+SELECT id, ad, durum
+FROM kayit
+WHERE durum = 'aktif'
+ORDER BY created_at DESC
+LIMIT 50;`,
+  };
+  return T[lang] || T.Python;
+}
+
+/* Yerel cevap: her zaman çalışır, sınırını dürüstçe söyler */
+function localAnswer(prompt, mode){
+  const q = prompt.toLowerCase();
+  const notes = [];
+
+  if (/merhaba|selam|naber|kimsin|sen ne/.test(q)){
+    return `Ben PerfectCode Stüdyo — telefonunda çalışan kod ve araştırma asistanı.
+
+**Şu an:** Yerel motor (model indirilmedi). Yapabildikleri:
+- Metin/PDF özetleme (gerçek, offline)
+- Kod iskeleti üretme (10 dil, çalışır başlangıç)
+- Kodu çalıştırma ve hata yakalama
+- Hesap/hesaplama, metin işleme
+
+**Daha zekisi için:** Üstteki **Model** düğmesi → Qwen 2.5 1.5B indir (1 GB, bir kez). Sonrası tamamen offline ve çok daha güçlü.`;
+  }
+
+  if (/kaç|hesapla|topla|çarp|\d+\s*[+\-*/]/.test(q)){
+    try {
+      const expr = prompt.replace(/,/g, ".").match(/[\d\s+\-*/().%^]+/);
+      if (expr && /\d/.test(expr[0])){
+        const val = Function('"use strict";return (' + expr[0].replace(/\^/g,"**") + ')')();
+        if (Number.isFinite(val)){ const shown = Number(val.toFixed(10)); return `**Sonuç:** \`${shown}\`\n\nİşlem: \`${expr[0].trim()}\`\n\n_Yerel hesap motoru — doğrulanmış._`; }
+      }
+    } catch {}
+  }
+
+  if (mode === "research"){
+    return `### Kısa Cevap
+Bu soruya tam cevap için dil modeli gerekiyor; şu an **yerel motor** açık (model indirilmedi). Yine de iskeleti kurabilirim.
+
+### Adım Adım Akıl Yürütme
+1. Soruyu alt parçalara böl: tanım → mekanizma → kanıt → karşı görüş.
+2. Her parça için hangi kaynak türü gerektiğini belirle.
+3. Çelişen kaynak varsa ikisini de yaz, ağırlığı kanıt gücüne göre ver.
+
+### Kanıt ve Kaynak Türü
+Yerel motor dış kaynak tarayamaz. Kaynak istiyorsan modeli yükle veya soruyu "hangi resmî kurum bakar" diye sor.
+
+### Karşıt Görüş
+Her konuda en az iki makul pozisyon vardır; tek taraflı sunum hatalıdır.
+
+### Güven: %20
+Nedeni: model yüklü değil, güncel kaynağa erişim yok. Yüksek güven iddiası burada dürüst olmaz.
+
+---
+**Daha iyi cevap için:** Model → Qwen 2.5 1.5B (1 GB).`;
+  }
+
+  if (/özet|ozet|summar/.test(q)){
+    const body = prompt.replace(/^.*?(özetle|ozetle|özet|ozet)\s*[:\-]?\s*/i, "");
+    if (body.length > 120){
+      const r = localSummarize(body, 6);
+      return `### Özet\n${r.summary.map((s,i)=>`${i+1}. ${s}`).join("\n")}\n\n### Anahtar Kelimeler\n${r.keywords.join(", ")}\n\n_Yerel özetleyici (cümle skorlama) — offline çalışır._`;
+    }
+    notes.push("Özetlenecek metin çok kısa (en az 120 karakter gerek). PDF sekmesinden dosya yükleyebilirsin.");
+  }
+
+  return `**Yerel motor cevabı**
+
+Sorunu aldım: “${prompt.slice(0,140)}”
+
+Şu an dil modeli yüklü değil, bu yüzden **uydurma cevap vermiyorum**. Yerel motor şunları gerçekten yapabilir:
+- **Özet:** “şunu özetle: …” + uzun metin
+- **Kod iskeleti:** Kod Lab → dil seç → Üret
+- **Hesap:** “1280 * 0.18 kaç eder”
+- **PDF:** Medya → PDF yükle → Özetle
+- **Fotoğraftan kod:** Medya → fotoğraf → OCR
+
+Gerçek dil modeli için: **Model → Qwen 2.5 1.5B** (1 GB, bir kez indir, sonra offline).
+
+${notes.join("\n\n")}`;
+}
+</script>
+
+<script>
+"use strict";
+
+/* -------------------- 8. MARKDOWN / KOD RENDER -------------------- */
+function highlight(code){
+  const KW = "function|const|let|var|class|extends|return|if|else|for|while|do|switch|case|break|continue|def|elif|import|from|export|default|async|await|try|except|finally|catch|throw|raise|new|this|self|interface|type|enum|public|private|protected|static|final|void|int|float|str|bool|string|number|boolean|any|fn|mut|pub|struct|impl|match|use|mod|package|func|go|defer|range|echo|SELECT|FROM|WHERE|INSERT|INTO|UPDATE|SET|DELETE|CREATE|TABLE|INDEX|JOIN|GROUP|ORDER|BY|LIMIT|NOT|NULL|AND|OR|PRIMARY|KEY|CONSTRAINT|CHECK|DEFAULT";
+  const RE = new RegExp(
+    "(\\/\\/[^\\n]*|#[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/|--[^\\n]*)" +
+    "|(\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'|`(?:[^`\\\\]|\\\\.)*`)" +
+    "|\\b(\\d+(?:\\.\\d+)?)\\b" +
+    "|\\b(" + KW + ")\\b",
+    "g"
+  );
+  const toks = [];
+  const masked = String(code).replace(RE, (all, cm, str, num, kw) => {
+    const cls = cm ? "cm" : str ? "str" : num ? "num" : "kw";
+    toks.push('<span class="' + cls + '">' + esc(all) + "</span>");
+    return "\u0000" + (toks.length - 1) + "\u0000";
+  });
+  return esc(masked).replace(/\u0000(\d+)\u0000/g, (_, i) => toks[+i]);
+}
+
+function md(text, { wrap = true } = {}){
+  if (!text) return "";
+  const blocks = [];
+  let src = String(text).replace(/```([a-zA-Z0-9+#]*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+    blocks.push(`<pre class="code-box" style="white-space:pre-wrap;max-height:40dvh">${highlight(code.replace(/\s+$/, ""))}</pre>`);
+    return `\u0000B${blocks.length - 1}\u0000`;
+  });
+
+  const inline = s => esc(s)
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+    .replace(/__([^_]+)__/g, "<b>$1</b>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+  const out = [];
+  let para = [];
+  let listOpen = false;
+  let ordered = false;
+
+  const flushPara = () => { if (para.length){ out.push("<p>" + para.join("<br>") + "</p>"); para = []; } };
+  const closeList = () => { if (listOpen){ out.push(ordered ? "</ol>" : "</ul>"); listOpen = false; } };
+  const openList = (ord) => {
+    if (listOpen && ordered !== ord) closeList();
+    if (!listOpen){ out.push(ord ? "<ol>" : "<ul>"); listOpen = true; ordered = ord; }
+  };
+
+  for (const raw of src.split("\n")){
+    const line = raw.trim();
+    if (!line){ flushPara(); closeList(); continue; }
+
+    if (/^\u0000B\d+\u0000$/.test(line)){
+      flushPara(); closeList(); out.push(line); continue;
+    }
+    let m;
+    if ((m = line.match(/^#{1,4}\s+(.+)$/))){
+      flushPara(); closeList();
+      out.push(`<h3>${inline(m[1])}</h3>`);
+      continue;
+    }
+    if ((m = line.match(/^[-*•–]\s+(.+)$/))){
+      flushPara(); openList(false);
+      out.push(`<li>${inline(m[1])}</li>`);
+      continue;
+    }
+    if ((m = line.match(/^\d+[.)]\s+(.+)$/))){
+      flushPara(); openList(true);
+      out.push(`<li>${inline(m[1])}</li>`);
+      continue;
+    }
+    if (/^\s*[-—]{3,}\s*$/.test(line)){
+      flushPara(); closeList(); out.push('<hr style="border:none;border-top:1px solid var(--line);margin:10px 0">');
+      continue;
+    }
+    closeList();
+    para.push(inline(line));
+  }
+  flushPara(); closeList();
+
+  return out.join("").replace(/\u0000B(\d+)\u0000/g, (_, i) => blocks[+i]);
+}
+
+/* Anında cevap: model beklemeden, 0 ms */
+const QUICK = [
+  { re:/^(merhaba|selam|selamlar|hey|hi|hello|günaydın|iyi akşamlar|iyi geceler|meraba|mrb)[\s!.,]*$/i,
+    out: () => "Merhaba! Ne yapıyoruz — kod mu, araştırma mı, belge mi?" },
+  { re:/^(nasılsın|naber|ne haber|nasilsin|keyifler nasıl)[\s?!.,]*$/i,
+    out: () => "İyiyim, hazırım. Sen ne üzerinde çalışıyorsun?" },
+  { re:/^(teşekkür|tesekkur|sağ ?ol|sagol|eyvallah|thanks|thank you)/i,
+    out: () => "Rica ederim. Başka bir şey?" },
+  { re:/^(sen kimsin|kimsin|adın ne|adin ne|ne yapabilirsin|neler yapabilirsin)/i,
+    out: () => "PerfectCode Stüdyo — telefonunda çalışan kod + araştırma asistanı.\n\n**Yapabildiklerim:** kod yaz/çalıştır/düzelt · kaynaklı araştırma · fotoğraftan kod (OCR) · PDF özet · sesle komut.\n\nNe yapmamı istersin?" },
+  { re:/^(saat kaç|bugün günlerden ne|tarih ne)/i,
+    out: () => { const d = new Date(); return "**" + d.toLocaleString("tr-TR", { dateStyle:"long", timeStyle:"short" }) + "**"; } },
+  { re:/^(temizle|sohbeti temizle|yeni sohbet)$/i,
+    out: () => { newChat(); return "Sohbet temizlendi."; } },
+];
+function quickReply(text){
+  const t = text.trim();
+  if (t.length > 60) return null;
+  for (const q of QUICK) if (q.re.test(t)) return q.out();
+  return null;
+}
+
+/* -------------------- 9. SOHBET -------------------- */
+function addMsg(role, content, meta){
+  S.msgs.push({ role, content, meta: meta || null });
+  saveChat();
+  renderMsg({ role, content, meta });
+}
+function renderMsg(m, animate = true){
+  const box = $("#msgs");
+  const el = document.createElement("div");
+  el.className = "msg " + (m.role === "user" ? "me" : "bot");
+  if (!animate) el.style.animation = "none";
+  const av = m.role === "user"
+    ? '<svg class="ic ic-s"><use href="#i-spark"/></svg>'
+    : '<svg class="ic ic-s"><use href="#i-code"/></svg>';
+  const tg = (m.meta?.tags || []).slice(0, 2);
+  const tags = tg.map(t =>
+    `<span class="tag ${t.tone || ""}" style="font-size:9px;padding:2px 6px;opacity:.8">${esc(t.text)}</span>`
+  ).join("");
+  el.innerHTML = `<div class="av">${av}</div>
+    <div class="body">
+      <div class="bubble">${m.role === "user" ? esc(m.content).replace(/\n/g, "<br>") : md(m.content)}</div>
+      ${tags ? `<div class="meta">${tags}</div>` : ""}
+
+    </div>`;
+  box.appendChild(el);
+  $("#chatEmpty").hidden = true;
+  scrollChat();
+}
+function scrollChat(){
+  const pane = $("#pane-chat");
+  pane.scrollTop = pane.scrollHeight;
+}
+function typing(on, label = "Düşünüyor"){
+  const old = $("#typingRow");
+  if (old) old.remove();
+  if (!on) return;
+  const el = document.createElement("div");
+  el.id = "typingRow";
+  el.className = "msg bot";
+  el.innerHTML = `<div class="av"><svg class="ic ic-s"><use href="#i-code"/></svg></div>
+    <div class="body"><div class="bubble" style="display:inline-flex;align-items:center;gap:8px">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span style="font-size:12px;color:var(--dim)">${esc(label)}…</span>
+    </div></div>`;
+  $("#msgs").appendChild(el);
+  scrollChat();
+}
+
+const SUGGESTIONS = [
+  { icon:"i-code", t:"Sepet sistemi yaz", q:"Python ile SOLID'e uygun, stok kontrolü yapan e-ticaret sepet sistemi yaz." },
+  { icon:"i-microscope", t:"İki görüşü karşılaştır", q:"Yapay zekâ işsizliği artırır mı? Lehine ve aleyhine kanıtları karşılaştır." },
+  { icon:"i-image", t:"Fotoğraftan kod", q:"", mode:"media" },
+  { icon:"i-file", t:"PDF özetle", q:"", mode:"media" },
+  { icon:"i-mic", t:"Sesle sor", q:"", voice:true },
+  { icon:"i-shield", t:"Kod güvenlik taraması", q:"Şu kodu OWASP Top 10'a göre incele: " },
+];
+function renderSugg(){
+  $("#sugg").innerHTML = SUGGESTIONS.map((s, i) => `
+    <button onclick="useSugg(${i})"><svg class="ic"><use href="#${s.icon}"/></svg>${esc(s.t)}</button>`).join("");
+}
+function useSugg(i){
+  const s = SUGGESTIONS[i];
+  if (s.mode) { setMode(s.mode); return; }
+  if (s.voice) { startVoice("chat"); return; }
+  $("#userInput").value = s.q;
+  autoGrow($("#userInput"));
+  $("#userInput").focus();
+}
+function autoGrow(el){
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 110) + "px";
+}
+function onKey(e){
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendOrStop(); }
+}
+
+function sendOrStop(){
+  if (S.busy){ S.abort = true; toast("Durduruldu", "info", 1400); S.busy = false; typing(false); setBusyUI(false); return; }
+  sendMessage();
+}
+
+/* Akış baloncuğu */
+function streamStart(){
+  typing(false);
+  const el = document.createElement("div");
+  el.className = "msg bot";
+  el.innerHTML = `<div class="av"><svg class="ic ic-s"><use href="#i-code"/></svg></div>
+    <div class="body"><div class="bubble" data-stream="1"></div></div>`;
+  document.getElementById("msgs").appendChild(el);
+  const empty = document.getElementById("chatEmpty");
+  if (empty) empty.hidden = true;
+  scrollChat();
+  return el;
+}
+
+async function sendMessage(){
+  const inp = $("#userInput");
+  const text = inp.value.trim();
+  if (!text || S.busy) return;
+
+  inp.value = ""; autoGrow(inp);
+  addMsg("user", text);
+
+  // 1) ANINDA cevap (model yok, 0 ms)
+  const fast = quickReply(text);
+  if (fast){
+    addMsg("bot", fast, { tags: [{ text:"anında", tone:"g", icon:"i-check" }] });
+    S.lastAnswer = fast;
+    if (S.cfg.tts) speak(fast);
+    return;
+  }
+
+  S.busy = true; S.abort = false; setBusyUI(true);
+  const t0 = performance.now();
+  let streamEl = null, streamText = "";
+  let know = null;
+
+  const onToken = t => {
+    if (!streamEl) streamEl = streamStart();
+    streamText += t;
+    const b = streamEl.querySelector('[data-stream="1"]');
+    if (b) b.innerHTML = esc(streamText).replace(/\n/g, "<br>");
+    scrollChat();
+  };
+
+  try {
+    // 2) Kaynak taraması (yalnızca gerekiyorsa, paralel değil — hız için sınırlı)
+    if (S.cfg.web && navigator.onLine && needsKnowledge(text)){
+      if (!streamEl){ typing(true, "Kaynak tarıyor"); }
+      know = await gatherKnowledge(text);
+    }
+    if (!streamEl){ typing(true, "Yazıyor"); }
+
+    const proj = projectContext();
+    const sys = sysPrompt(S.cfg.research ? "research" : "chat")
+      + (proj ? `
+
+KULLANICININ PROJE DOSYALARI (ilgiliyse kullan, dosya adı belirt):
+${proj}` : "")
+      + (know?.ctx ? `
+
+GÜNCEL KAYNAK VERİSİ (kullan, kaynak adı ver):
+${know.ctx}` : "");
+
+    const lenLimit = S.cfg.answerLen === "short" ? 500 : S.cfg.answerLen === "long" ? 1800 : 1000;
+
+    let answer = await llm([
+      { role: "system", content: sys },
+      ...S.msgs.slice(-6).map(m => ({ role: m.role === "bot" ? "assistant" : "user", content: m.content })),
+    ], { mode: "chat", max: lenLimit, onToken });
+
+    let tags = [];
+    if (answer === null){
+      answer = localAnswer(text, S.cfg.research ? "research" : "chat");
+      tags = [{ text:"Yerel motor", tone:"y", icon:"i-shield" }];
+      if (Date.now() < CLOUD_COOL_UNTIL) tags.push({ text:"bulut beklemede", tone:"", icon:"i-history" });
+    } else {
+      tags = [{ text: S.provider === "cloud" ? "Bulut" : S.provider === "key" ? (KEY_PROV[S.cfg.keyProv]?.name || "Anahtar") : S.provider === "device" ? "Cihazda" : "Ollama", tone:"v", icon:"i-brain" }];
+      if (know?.sources?.length) tags.push({ text: know.sources.length + " kaynak", tone:"g", icon:"i-search" });
+      if (S.cfg.verify && answer.length > 220){
+        const v = await verifySmart(text, answer, know?.sources?.length || 0);
+        if (v.fixed) answer = v.answer;
+        if (v.score != null) tags.push({ text:(v.fixed ? "Düzeltildi " : "Denetim ") + v.score + "%", tone: v.ok ? "g" : "y", icon: v.ok ? "i-check" : "i-info" });
+      }
+    }
+    if (know?.sources?.length) answer += `\n\n**Kaynaklar:** ` + know.sources.map((s,i) => `[${i+1}](${s.url})`).join(" · ");
+
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    tags.push({ text: secs + " sn", tone:"", icon:"i-history" });
+
+    if (streamEl) streamEl.remove();
+    typing(false);
+    addMsg("bot", answer, { tags });
+    S.lastAnswer = answer;
+    if (S.cfg.tts) speak(answer);
+  } catch (e){
+    if (streamEl) streamEl.remove();
+    typing(false);
+    addMsg("bot", `Bağlanamadım: \`${esc(e.message)}\` — tekrar dene.`);
+  } finally {
+    S.busy = false; typing(false); setBusyUI(false);
+  }
+}
+
+function setBusyUI(busy){
+  const b = $("#sendBtn");
+  b.classList.toggle("stop", busy);
+  b.innerHTML = busy
+    ? '<svg class="ic"><use href="#i-stop"/></svg>'
+    : '<svg class="ic"><use href="#i-send"/></svg>';
+}
+
+/* -------------------- 10. DOĞRULAMA KATMANI -------------------- */
+async function verifyAnswer(question, answer){
+  const prompt = `Sen katı bir doğruluk denetçisisin. Aşağıdaki cevabı soruya göre denetle.
+Sadece şu JSON'u döndür, başka hiçbir şey yazma:
+{"ok":true|false,"score":0-100,"problem":"kısa açıklama veya boş","duzeltilmis":"gerekirse tam düzeltilmiş cevap, yoksa boş"}
+
+KONTROL LİSTESİ:
+- Uydurma bilgi, var olmayan API/kütüphane, yanlış sayı
+- Kod çalışır mı, eksik import/değişken var mı
+- Soruya gerçekten cevap veriyor mu
+- Aşırı iddia / kesinlik yanlış mı
+
+SORU: ${question}
+
+CEVAP:
+${answer}`;
+  try {
+    const raw = await llm([
+      { role: "system", content: "Sadece geçerli JSON döndür. Açıklama yazma." },
+      { role: "user", content: prompt },
+    ], { temp: 0.1, max: 500 });
+    if (!raw) return { ok: true, score: null };
+    const m = raw.match(/\{[\s\S]*\}/);
+    if (!m) return { ok: true, score: null };
+    const j = JSON.parse(m[0]);
+    const fixed = j.ok === false && j.duzeltilmis && j.duzeltilmis.length > 30;
+    return {
+      ok: j.ok !== false,
+      score: typeof j.score === "number" ? clamp(Math.round(j.score), 0, 100) : null,
+      note: j.problem || "",
+      fixed,
+      answer: fixed ? j.duzeltilmis : answer,
+    };
+  } catch {
+    return { ok: true, score: null };
+  }
+}
+
+/** Hızlı yerel denetim: LLM çağırmadan yapısal/teknik hataları yakalar. */
+function localCheck(question, answer, sources = 0){
+  let score = 90;
+  const notes = [];
+  const a = String(answer || "");
+
+  if (a.length < 100){ score -= 14; notes.push("cevap çok kısa"); }
+
+  // kod blokları: JS sözdizimi gerçekten denenir
+  const blocks = [...a.matchAll(/```(\w*)\n?([\s\S]*?)```/g)];
+  for (const b of blocks){
+    const lang = (b[1] || "").toLowerCase();
+    if (lang && !["js","javascript","ts","typescript","jsx","tsx"].includes(lang)) continue;
+    try { new Function('"use strict";' + b[2].replace(/\b(export|import)\b[^\n]*\n/g, "")); }
+    catch (e){ score -= 20; notes.push("kod sözdizimi: " + e.message.slice(0, 40)); }
+  }
+
+  if ((a.match(/```/g) || []).length % 2 !== 0){ score -= 12; notes.push("kapanmamış kod bloğu"); }
+  if (/\b(kesinlikle|%100|asla yanılmaz|hiç şüphesiz|garanti ederim)\b/i.test(a)){ score -= 7; notes.push("aşırı kesinlik"); }
+  if (/Kaynaklar\s*:/i.test(a) === false && /\b\d{4}\b.*\b(araştırma|çalışma|rapor)\b/i.test(a) && !sources){
+    score -= 6; notes.push("atıf yok"); }
+  if (/\b(bilmiyorum|emin değilim|doğrulanamadı)\b/i.test(a)) notes.push("belirsizliğini belirtmiş");
+
+  score = clamp(Math.round(score), 20, 97);
+  const critical = notes.some(n => /kod sözdizimi|kapanmamış|aşırı kesinlik/.test(n));
+  return { ok: score >= 72 && !critical, score, note: notes.slice(0, 2).join(", ") };
+}
+
+/** Denetim: ücretsiz sınırsız motor varsa LLM ile, yoksa yerel. */
+async function verifySmart(question, answer, sources = 0){
+  const base = localCheck(question, answer, sources);
+  const canLlm = !!(S.engine || S.cfg.ollama || (S.cfg.keyProv && S.cfg.key));
+  if (!canLlm) return base;
+  try {
+    const v = await verifyAnswer(question, answer);
+    if (v.score == null) return base;
+    const fixed = v.fixed && v.ok === false;
+    return { ok: v.ok, score: v.score, note: v.note, fixed, answer: fixed ? v.answer : answer };
+  } catch { return base; }
+}
+
+/* -------------------- 11. ARAŞTIRMA -------------------- */
+async function doResearch(){
+  const q = $("#researchInput").value.trim();
+  if (!q) return toast("Önce bir soru yaz", "err");
+  const out = $("#researchOut");
+  out.innerHTML = `<div class="card tight"><div style="display:flex;align-items:center;gap:8px">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="hint">Kaynaklar taranıyor…</span></div></div>`;
+
+  try {
+    let know = null;
+    if (S.cfg.web && navigator.onLine){
+      know = await gatherKnowledge(q, true);
+    }
+    const sys = sysPrompt("research") + (know?.ctx
+      ? `\n\nAŞAĞIDAKİ KAYNAK VERİSİNİ KULLAN. Uydurma. Kaynağın adını ver. Kaynak yoksa "kaynak bulunamadı" yaz.\n\n${know.ctx}`
+      : "");
+
+    let text = await llm([
+      { role: "system", content: sys },
+      { role: "user", content: q },
+    ], { mode: "research", temp: 0.3, max: 1800 });
+
+    let isLocal = false;
+    if (text === null){ text = localAnswer(q, "research"); isLocal = true; }
+
+    let verifyTag = "";
+    if (S.cfg.verify && !isLocal){
+      const v = await verifySmart(q, text, know?.sources?.length || 0);
+      if (v.fixed) text = v.answer;
+      if (v.score != null) verifyTag = v.ok
+        ? `<span class="tag g"><svg class="ic"><use href="#i-check"/></svg>${v.score}%</span>`
+        : `<span class="tag y"><svg class="ic"><use href="#i-info"/></svg>${v.fixed ? "Düzeltildi" : v.score + "%"}</span>`;
+    }
+
+    const confM = text.match(/Güven\s*[:%]\s*%?\s*(\d{1,3})/i) || text.match(/(\d{1,3})\s*%\s*güven/i);
+    let conf = confM ? clamp(+confM[1], 0, 100) : (isLocal ? 20 : 60);
+    if (know?.sources?.length) conf = clamp(conf + 12, 0, 95);
+
+    const stepSec = text.match(/Adım Adım[\s\S]*?(?=###|$)/i);
+    const steps = stepSec
+      ? stepSec[0].replace(/^.*?\n/, "").split(/\n+/).map(s => s.replace(/^\s*\d+[.)]\s*/, "").trim()).filter(s => s.length > 8).slice(0, 6)
+      : [];
+    const oppSec = text.match(/Karşıt Görüş[\s\S]*?(?=###|$)/i);
+    const opp = oppSec ? oppSec[0].replace(/^.*?\n/, "").replace(/^#+\s*/, "").trim().slice(0, 700) : "";
+
+    const srcHtml = (know?.sources || []).length ? `
+      <div class="card tight">
+        <div class="h-title"><svg class="ic"><use href="#i-search"/></svg>Kaynaklar</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${know.sources.map((s,i) => `
+            <a href="${esc(s.url)}" target="_blank" rel="noopener" style="display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border-radius:11px;background:rgba(255,255,255,.04);border:1px solid var(--line);text-decoration:none;color:inherit">
+              <span style="font-size:10px;font-weight:900;color:#c4b5fd;background:rgba(139,92,246,.16);border-radius:5px;padding:2px 5px;flex:none">${i+1}</span>
+              <span style="min-width:0">
+                <span style="display:block;font-size:12.5px;font-weight:700">${esc(s.title)}</span>
+                <span style="display:block;font-size:10.5px;color:var(--dim2)">${esc(s.kind)}</span>
+              </span>
+            </a>`).join("")}
+        </div>
+      </div>` : "";
+
+    out.innerHTML = `
+      <div class="card tight res-block">
+        <div style="font-size:13.5px;line-height:1.65">${md(text)}</div>
+        <div class="meta">${verifyTag}
+          <span class="tag ${isLocal ? "y" : "v"}"><svg class="ic"><use href="#i-${isLocal ? "shield" : "brain"}"/></svg>${isLocal ? "Yerel" : S.provider === "cloud" ? "Bulut" : "Model"}</span>
+          ${(know?.sources||[]).length ? `<span class="tag g"><svg class="ic"><use href="#i-search"/></svg>${know.sources.length} kaynak</span>` : `<span class="tag y">kaynak yok</span>`}
+        </div>
+      </div>
+      ${srcHtml}
+      ${steps.length ? `<div class="card tight">
+        <div class="h-title"><svg class="ic"><use href="#i-search"/></svg>Adımlar</div>
+        <div class="res-block">${steps.map((s,i)=>`<div class="res-step"><div class="n">${i+1}</div><div class="t">${esc(s)}</div></div>`).join("")}</div>
+      </div>` : ""}
+      ${opp ? `<div class="opp"><b><svg class="ic ic-s"><use href="#i-info"/></svg>Karşıt Görüş</b><p>${esc(opp)}</p></div>` : ""}
+      <div class="card tight">
+        <div class="conf">
+          <div><div class="val">%${conf}</div><div class="lbl">GÜVEN</div></div>
+          <div class="track"><div class="fill" style="width:${conf}%"></div></div>
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn ghost sm" data-act="copy"><svg class="ic ic-s"><use href="#i-copy"/></svg>Kopyala</button>
+        <button class="btn ghost sm" onclick="exportResearch()"><svg class="ic ic-s"><use href="#i-download"/></svg>Kaydet</button>
+      </div>`;
+    const cp = out.querySelector('[data-act="copy"]');
+    if (cp) cp.onclick = () => copyText(text);
+    S.lastAnswer = text;
+  } catch (e){
+    out.innerHTML = `<div class="card tight"><div class="hint" style="color:#fca5a5">${esc(e.message)}</div></div>`;
+  }
+}
+
+</script>
+
+<script>
+"use strict";
+
+/* -------------------- 12. KOD LAB -------------------- */
+async function codeGenerate(){
+  const prompt = $("#codePrompt").value.trim();
+  const lang = $("#codeLang").value;
+  const task = $("#codeTask").value;
+  if (!prompt) return toast("Ne yazmamı istediğini yaz", "err");
+
+  const btn = $("#codeGenBtn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="dots"><i></i><i></i><i></i></span> Üretiliyor';
+  S.code.lastPrompt = prompt; S.code.lang = lang;
+
+  const taskMap = {
+    generate: "Sıfırdan, tam ve çalışır kod yaz.",
+    review: "Kodu incele: hatalar, güvenlik, performans ve okunabilirlik. Bulguları madde madde yaz, sonra düzeltilmiş kodu ver.",
+    debug: "Hataları bul ve düzelt. Ne değiştiğini kısaca yaz, sonra tam düzeltilmiş kodu ver.",
+    optimize: "Performansı optimize et. Karmaşıklık öncesi/sonrası yaz, sonra kodu ver.",
+    test: "Kapsamlı birim testleri yaz. Kenar durumları dahil.",
+    explain: "Kodu satır satır açıkla, sonra iyileştirme öner.",
+  };
+
+  try {
+    let code = await llm([
+      { role: "system", content: sysPrompt("code") },
+      { role: "user", content: `${taskMap[task]}\nDil: ${lang}\n\nGörev: ${prompt}` },
+    ], { mode: "code", temp: 0.25, max: 1800 });
+
+    let badge = "MODEL";
+    if (code === null){
+      code = localScaffold(prompt, lang);
+      badge = "YEREL İSKELET";
+
+    } else {
+      code = code.replace(/^```[a-zA-Z0-9+#]*\n?/, "").replace(/```\s*$/, "").trim();
+    }
+
+    S.code.text = code;
+    $("#codeOut").innerHTML = highlight(code);
+    $("#codeBadge").textContent = badge + " · " + lang;
+    $("#codeBadge").className = "chip" + (badge === "MODEL" ? " ok" : " warn");
+    $("#codeMeta").textContent = `${code.split("\n").length} satır · ${new Blob([code]).size} bayt · ${taskMap[task].split(".")[0]}`;
+    $("#codeResult").hidden = false;
+    $("#runCard").hidden = true;
+    $("#codeScoreCard").hidden = false;
+    scoreCode(code);
+    $("#codeResult").scrollIntoView({ behavior:"smooth", block:"start" });
+  } catch (e){
+    toast("Kod üretilemedi: " + e.message, "err");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<svg class="ic ic-s"><use href="#i-wand"/></svg>Üret';
+  }
+}
+
+/* Kalite skoru — sezgisel ama gerçek kontroller */
+function scoreCode(code){
+  let score = 48;
+  const add = (cond, pts) => { if (cond) score += pts; };
+  add(code.length > 120, 6);
+  add(/def |function |class |func |fn |public |const .*=>/.test(code), 8);
+  add(/\/\*\*|"""|#\s|\/\/|--\s/.test(code), 6);              // yorum
+  add(/try|except|catch|Result<|error|Hata/.test(code), 7);    // hata yönetimi
+  add(/test|assert|expect\(|describe\(|@Test/.test(code), 8);  // test
+  add(/type |interface |: string|: number|->.*:|Protocol|dataclass/.test(code), 6);
+  add(code.split("\n").length > 18, 4);
+
+  const warns = [];
+  if (/\beval\s*\(/.test(code)){ score -= 18; warns.push("eval kullanımı (kod enjeksiyonu riski)"); }
+  if (/innerHTML\s*=/.test(code)){ score -= 10; warns.push("innerHTML (XSS riski, textContent kullan)"); }
+  if (/(password|secret|api[_-]?key)\s*[:=]\s*["'][^"']{6,}/i.test(code)){ score -= 22; warns.push("gömülü şifre/anahtar"); }
+  if (/SELECT \*/.test(code) && !/LIMIT/i.test(code)){ score -= 8; warns.push("SELECT * + LIMIT yok"); }
+  if (/except\s*:\s*$|catch\s*\(\s*\w*\s*\)\s*\{\s*\}/.test(code)){ score -= 12; warns.push("sessiz hata yutma"); }
+  if (code.split("\n").some(l => l.length > 140)){ score -= 4; warns.push("çok uzun satır"); }
+  if (!/test|assert|expect/i.test(code)) warns.push("test yok");
+
+  score = clamp(Math.round(score), 5, 96);
+  const ring = $("#codeRing");
+  ring.style.setProperty("--p", score);
+  ring.dataset.t = score;
+  ring.style.background = `conic-gradient(${score >= 80 ? "#22c55e" : score >= 60 ? "#f59e0b" : "#ef4444"} ${score}%, rgba(255,255,255,.09) 0)`;
+  $("#codeScoreTxt").innerHTML = score >= 80
+    ? `İyi. ${warns.length ? "Not: " + warns.slice(0,2).join(", ") : "Belirgin sorun yok."}`
+    : `Geliştirilebilir: ${warns.slice(0,3).join(", ") || "yapı zayıf"}.`;
+  return score;
+}
+
+/* --- Çalıştırma --- */
+function captureConsole(){
+  const logs = [];
+  const fmt = v => {
+    if (typeof v === "object" && v !== null){
+      try { return JSON.stringify(v); } catch { return String(v); }
+    }
+    return String(v);
+  };
+  const push = (tag) => (...a) => logs.push((tag ? tag + " " : "") + a.map(fmt).join(" "));
+  return { logs, console: { log: push(""), info: push("ℹ"), warn: push("⚠"), error: push("✖"), table: push("") } };
+}
+
+async function runCode(){
+  const code = S.code.text;
+  const lang = S.code.lang;
+  const card = $("#runCard");
+  const out = $("#runOut");
+  card.hidden = false;
+  out.className = "term";
+  out.textContent = "Çalışıyor…";
+
+  if (/^(JavaScript|TypeScript)$/.test(lang)){
+    try {
+      const { logs, console: fakeConsole } = captureConsole();
+      const t0 = performance.now();
+      const body = code.replace(/\bexport\s+(default\s+)?/g, "");
+      const fn = new Function("console", "window", "document", '"use strict";\n' + body);
+      const stubDoc = { querySelector: () => null, addEventListener: () => {}, createElement: () => ({ style:{}, appendChild(){}, remove(){} }) };
+      fn(fakeConsole, {}, stubDoc);
+      const ms = (performance.now() - t0).toFixed(1);
+      out.className = "term";
+      out.textContent = (logs.length ? logs.join("\n") : "(çıktı yok)")
+        + `\n\n✔ ${ms} ms · tarayıcı sandbox (Node gerekmez)`;
+    } catch (e){
+      out.className = "term err";
+      out.textContent = "✖ " + e.name + ": " + e.message;
+      toast("Kod hata verdi — 'Otomatik Düzelt' dene", "err", 3000);
+    }
+    return;
+  }
+
+  if (lang === "Python"){
+    try {
+      out.textContent = "Python çalışma zamanı hazırlanıyor (ilk sefer ~8 MB)…";
+      if (!S.pyodide){
+        if (!window.loadPyodide) await loadScript("https://cdn.jsdelivr.net/pyodide/v0.26.2/full/pyodide.js");
+        S.pyodide = await window.loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.2/full/" });
+      }
+      out.textContent = "Çalışıyor…";
+      let buf = "";
+      S.pyodide.setStdout({ batched: s => { buf += s + "\n"; } });
+      S.pyodide.setStderr({ batched: s => { buf += s + "\n"; } });
+      const t0 = performance.now();
+      await S.pyodide.runPythonAsync(code);
+      const ms = (performance.now() - t0).toFixed(1);
+      out.className = "term";
+      out.textContent = (buf || "(çıktı yok)") + `\n\n✔ ${ms} ms · Pyodide (tarayıcıda gerçek Python)`;
+    } catch (e){
+      out.className = "term err";
+      out.textContent = "✖ " + String(e.message || e).split("\n").slice(-4).join("\n");
+      toast("Python hata verdi", "err", 3000);
+    }
+    return;
+  }
+
+  out.className = "term";
+  out.textContent = `ℹ ${lang} tarayıcıda çalışmaz. Çalıştırma: JavaScript ve Python destekli.\n`
+    + "Java/C#/C++/Go/Rust için kodu kopyalayıp kendi derleyicinde dene\n"
+    + "(veya Lab'da dili JavaScript'e çevir: Üret → dil: JavaScript).";
+}
+
+async function fixCode(){
+  if (!S.code.text) return toast("Önce kod üret", "err");
+  toast("Düzeltme analizi…", "info", 1500);
+  const code = S.code.text;
+  const lang = S.code.lang;
+
+  // 1) Yerel statik düzeltme: yaygın hatalar
+  let fixed = code;
+  const notes = [];
+  if (/console\.log/.test(fixed) && lang === "TypeScript") { fixed = fixed; }
+  if (/\bexcept\s*:\s*\n/.test(fixed)) { fixed = fixed.replace(/\bexcept\s*:\s*\n/g, "except Exception as e:\n        print(f'hata: {e}')\n"); notes.push("geniş except'e hata mesajı eklendi"); }
+  if (/catch\s*\(\s*\)\s*\{\s*\}/.test(fixed)) { fixed = fixed.replace(/catch\s*\(\s*\)\s*\{\s*\}/g, "catch (e) { console.error(e); }"); notes.push("boş catch dolduruldu"); }
+  if (lang === "Python" && !/^#.*coding/m.test(fixed)) { /* noop */ }
+
+  // 2) Model varsa gerçek düzeltme
+  if (S.engine){
+    const r = await llm([
+      { role:"system", content: sysPrompt("code") },
+      { role:"user", content:`Şu ${lang} kodundaki hataları düzelt. Sadece tam düzeltilmiş kodu döndür, açıklama yazma.\n\n${fixed}` },
+    ], { temp: 0.15, max: 1800 });
+    if (r){ fixed = r.replace(/^```[a-zA-Z0-9+#]*\n?/, "").replace(/```\s*$/, "").trim(); notes.push("model tarafından yeniden yazıldı"); }
+  }
+
+  S.code.text = fixed;
+  $("#codeOut").innerHTML = highlight(fixed);
+  scoreCode(fixed);
+  $("#runCard").hidden = true;
+  toast(notes.length ? "Düzeltildi: " + notes.join(", ") : "Belirgin sözdizimi hatası bulunamadı; kodu çalıştırıp test et", notes.length ? "ok" : "info", 3600);
+}
+
+function copyCode(){ copyText(S.code.text); }
+function shareCode(){
+  if (navigator.share) navigator.share({ title:"PerfectCode", text: S.code.text }).catch(()=>{});
+  else copyText(S.code.text);
+}
+
+/* -------------------- 13. MEDYA: OCR -------------------- */
+const _loadedScripts = new Set();
+function loadScript(src, timeout = 25000){
+  if (_loadedScripts.has(src)) return Promise.resolve();
+  return new Promise((res, rej) => {
+    const s = document.createElement("script");
+    let done = false;
+    const finish = (err) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      if (err){ s.remove(); rej(err); }
+      else { _loadedScripts.add(src); res(); }
+    };
+    const timer = setTimeout(() => finish(new Error("Kütüphane zaman aşımı (ağ yok/engelli)")), timeout);
+    s.src = src;
+    s.onload = () => finish(null);
+    s.onerror = () => finish(new Error("Kütüphane yüklenemedi (ağ kapalı olabilir)"));
+    document.head.appendChild(s);
+  });
+}
+
+$("#imgInput").addEventListener("change", e => {
+  const files = [...(e.target.files || [])].slice(0, 5);
+  if (!files.length) return;
+  S.images = files;
+  S.image = files[0];
+  $("#imgGrid").innerHTML = files.map((f, i) => `
+    <div style="position:relative;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#000;aspect-ratio:1">
+      <img src="${URL.createObjectURL(f)}" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.92">
+      <span style="position:absolute;bottom:3px;left:4px;font-size:9px;font-weight:800;background:rgba(0,0,0,.65);padding:1px 5px;border-radius:5px">${i+1}</span>
+    </div>`).join("");
+  $("#imgPreviewWrap").hidden = false;
+  $("#ocrCard").hidden = true;
+  $("#ocrStatus").textContent = files.length + " görsel hazır";
+});
+
+document.getElementById("camInput")?.addEventListener("change", e => {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  S.images = [f]; S.image = f;
+  setMode("media");
+  setTimeout(() => {
+    const grid = document.getElementById("imgGrid");
+    if (grid) grid.innerHTML = `<div style="border-radius:12px;overflow:hidden;border:1px solid var(--line)"><img src="${URL.createObjectURL(f)}" style="width:100%;height:160px;object-fit:cover"></div>`;
+    const wrap = document.getElementById("imgPreviewWrap");
+    if (wrap) wrap.hidden = false;
+    const st = document.getElementById("ocrStatus");
+    if (st) st.textContent = "Fotoğraf hazır — Oku'ya bas";
+    toast("Fotoğraf eklendi", "ok", 1600);
+  }, 250);
+});
+
+function clearImage(){
+  S.images = []; S.image = null; S.ocrText = "";
+  $("#imgPreviewWrap").hidden = true;
+  $("#ocrCard").hidden = true;
+  $("#imgInput").value = "";
+  $("#ocrStatus").textContent = "";
+}
+
+async function ocrImage(){
+  const files = S.images || [];
+  if (!files.length) return toast("Önce fotoğraf seç", "err");
+  const st = $("#ocrStatus");
+  st.textContent = "OCR hazırlanıyor…";
+  try {
+    if (!window.Tesseract) await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.0/dist/tesseract.min.js");
+    let all = "";
+    let conf = 0;
+    for (let i = 0; i < files.length; i++){
+      st.textContent = files.length > 1 ? `Okunuyor ${i+1}/${files.length}…` : "Okunuyor…";
+      const { data } = await window.Tesseract.recognize(files[i], "eng", {
+        logger: m => { if (m.status === "recognizing text" && files.length === 1) st.textContent = `Okunuyor… ${Math.round(m.progress*100)}%`; }
+      });
+      const t = cleanOcr(data.text || "");
+      if (t) all += (files.length > 1 ? `// — görsel ${i+1} —\n` : "") + t + "\n\n";
+      conf += data.confidence || 0;
+    }
+    all = all.trim();
+    if (!all){ st.textContent = "Metin bulunamadı. Daha net, dik ve ışıklı fotoğraf dene."; return; }
+    S.ocrText = all;
+    $("#ocrOut").textContent = all;
+    $("#ocrCard").hidden = false;
+    $("#ocrLangChip").textContent = detectLang(all).toUpperCase() + " · OKUNDU";
+    st.textContent = `${all.split("\n").length} satır · ${Math.round(conf / files.length)}% güven`;
+    toast("Okundu", "ok", 1500);
+  } catch (e){
+    st.textContent = "OCR kütüphanesi yüklenemedi (" + e.message + ")";
+  }
+}
+
+/* OCR temizliği: kod için gürültü at, girinti koru */
+function cleanOcr(t){
+  return t
+    .replace(/\r/g, "")
+    .split("\n")
+    .map(l => l.replace(/[|]{2,}/g, "|").replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/\u00a0/g, " "))
+    .filter(l => !/^[\s\-_=*·.]{0,3}$/.test(l))            // boş/süs satırı
+    .filter(l => !/^(sayfa|page)\s*\d+/i.test(l.trim()))
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+function detectLang(t){
+  if (/\bdef\s+\w+\s*\(|\bimport\s+\w+|\bself\./.test(t)) return "python";
+  if (/\bfunction\b|=>|\bconst\b|\blet\b/.test(t)) return "javascript";
+  if (/\bpublic\s+(class|static)|\bString\[\]/.test(t)) return "java";
+  if (/#include|std::/.test(t)) return "cpp";
+  if (/SELECT|INSERT|UPDATE/i.test(t)) return "sql";
+  return "metin";
+}
+
+function ocrToLab(){
+  if (!S.ocrText) return;
+  S.code.text = S.ocrText;
+  S.code.lang = ({python:"Python", javascript:"JavaScript", java:"Java", cpp:"C++", sql:"SQL"})[detectLang(S.ocrText)] || "Python";
+  $("#codeLang").value = S.code.lang;
+  $("#codeOut").innerHTML = highlight(S.ocrText);
+  $("#codeBadge").textContent = "OCR · " + S.code.lang;
+  $("#codeResult").hidden = false;
+  $("#codeScoreCard").hidden = false;
+  scoreCode(S.ocrText);
+  setMode("code");
+  toast("Kod Lab'a aktarıldı", "ok");
+}
+
+async function fixPhotoCode(){
+  if (!S.ocrText){ await ocrImage(); }
+  if (!S.ocrText) return;
+  const lang = detectLang(S.ocrText);
+  if (S.engine){
+    const r = await llm([
+      { role:"system", content: sysPrompt("code") },
+      { role:"user", content:`Bu OCR ile okunmuş ${lang} kodu. Okuma hatalarını düzelt, eksikleri tamamla, tam çalışır kodu döndür. Sadece kod.\n\n${S.ocrText}` },
+    ], { mode:"code", temp:0.2, max:1600 });
+    if (r){
+      const clean = r.replace(/^```[a-zA-Z0-9+#]*\n?/, "").replace(/```\s*$/, "").trim();
+      $("#ocrOut").textContent = clean;
+      S.ocrText = clean;
+      toast("Kod düzeltildi", "ok");
+      return;
+    }
+  }
+  // Yerel: sezgisel onarım
+  let t = S.ocrText
+    .replace(/[“”]/g, '"')
+    .replace(/\bl\s*=\s*/g, "1 = ")
+    .replace(/\b0\s*O\b/g, "0O");
+  $("#ocrOut").textContent = t;
+  S.ocrText = t;
+  toast("Yerel temizlik yapıldı (model yüklü değil)", "info", 3200);
+}
+</script>
+
+<script>
+"use strict";
+
+/* -------------------- 14. PDF ÖZET -------------------- */
+const PDFJS = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/";
+
+$("#pdfInput").addEventListener("change", async e => {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  const list = $("#pdfList");
+  list.innerHTML = `<div class="pdf-item"><div class="pi"><svg class="ic ic-s"><use href="#i-file"/></svg></div>
+    <div class="pn"><div>${esc(f.name)}</div><div>Okunuyor… ${(f.size/1024/1024).toFixed(1)} MB</div></div></div>`;
+  try {
+    if (!window.pdfjsLib) await loadScript(PDFJS + "pdf.min.js");
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.js";
+    const buf = await f.arrayBuffer();
+    const doc = await window.pdfjsLib.getDocument({ data: buf }).promise;
+    let text = "";
+    const pageCount = Math.min(doc.numPages, 60);
+    for (let i = 1; i <= pageCount; i++){
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      text += content.items.map(it => it.str).join(" ") + "\n\n";
+      list.firstElementChild.querySelector(".pn div:last-child").textContent =
+        `Okunuyor… ${i}/${pageCount} sayfa`;
+    }
+    text = text.replace(/\s+/g, " ").replace(/(\S) (?=[A-ZÇĞİÖŞÜ][a-zçğıöşü]{2,})/g, "$1 ").trim();
+    S.pdf = { name: f.name, text, pages: pageCount };
+    list.innerHTML = `<div class="pdf-item"><div class="pi"><svg class="ic ic-s"><use href="#i-file"/></svg></div>
+      <div class="pn"><div>${esc(f.name)}</div>
+      <div>${pageCount} sayfa · ${text.length.toLocaleString("tr-TR")} karakter · hazır</div></div>
+      <svg class="ic ic-s" style="color:#86efac"><use href="#i-check"/></svg></div>`;
+    $("#pdfActions").hidden = false;
+    toast("PDF okundu", "ok");
+  } catch (err){
+    list.innerHTML = `<div class="pdf-item"><div class="pi" style="background:rgba(239,68,68,.14)"><svg class="ic ic-s" style="color:#fca5a5"><use href="#i-x"/></svg></div>
+      <div class="pn"><div>${esc(f.name)}</div><div style="color:#fca5a5">${esc(err.message)}</div></div></div>
+      <div class="hint">PDF.js CDN'den yüklenemedi. Önizleme iframe'inde ağ kapalı olabilir — dosyayı telefonda Chrome'da aç.</div>`;
+    toast("PDF açılamadı", "err", 3600);
+  }
+});
+
+async function summarizePdf(){
+  if (!S.pdf.text) return toast("Önce PDF seç", "err");
+  const len = $("#pdfLen").value;
+  const n = len === "short" ? 5 : len === "long" ? 18 : 10;
+  const out = $("#pdfOut");
+  out.innerHTML = `<div class="card tight"><span class="dots"><i></i><i></i><i></i></span>
+    <span class="hint" style="margin-left:6px">Özetleniyor…</span></div>`;
+
+  const text = S.pdf.text.slice(0, 12000);
+  let bullets = [], keywords = [], byModel = false;
+
+  if (S.engine){
+    const r = await llm([
+      { role:"system", content: sysPrompt("chat") },
+      { role:"user", content:`Şu belgeyi ${n} madde halinde özetle. Her madde tek cümle, somut bilgi içersin. Sonda "ANAHTAR KELİMELER: ..." satırı ekle.\n\nBELGE:\n${text}` },
+    ], { temp:0.3, max:1200 });
+    if (r){
+      const kwM = r.match(/ANAHTAR KELİMELER\s*:?\s*(.+)/i);
+      keywords = kwM ? kwM[1].split(/[,;]/).map(s=>s.trim()).filter(Boolean).slice(0,10) : [];
+      bullets = r.replace(/ANAHTAR KELİMELER[\s\S]*/i, "")
+        .split("\n").map(s => s.replace(/^\s*[-*•\d.)]+\s*/, "").trim())
+        .filter(s => s.length > 18).slice(0, n);
+      byModel = true;
+    }
+  }
+  if (!bullets.length){
+    const r = localSummarize(text, n);
+    bullets = r.summary; keywords = r.keywords;
+  }
+
+  S.lastAnswer = bullets.map(b => "• " + b).join("\n");
+  out.innerHTML = `
+    <div class="card tight">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div class="h-title" style="margin:0"><svg class="ic"><use href="#i-file"/></svg>Özet</div>
+        <span class="tag ${byModel ? "v" : "y"}"><svg class="ic"><use href="#i-${byModel ? "brain" : "shield"}"/></svg>${byModel ? "Model" : "Yerel özetleyici"}</span>
+      </div>
+      <div class="res-block">${bullets.map((b,i) => `
+        <div class="res-step"><div class="n">${i+1}</div><div class="t">${esc(b)}</div></div>`).join("")}</div>
+      ${keywords.length ? `<div style="margin-top:11px">
+        <div class="label">Anahtar kelimeler</div>
+        <div class="row">${keywords.map(k => `<span class="tag v">${esc(k)}</span>`).join("")}</div>
+      </div>` : ""}
+      <div class="row" style="margin-top:11px">
+        <button class="btn ghost sm" id="pdfCopyBtn"><svg class="ic ic-s"><use href="#i-copy"/></svg>Kopyala</button>
+        <button class="btn ghost sm" id="pdfShareBtn"><svg class="ic ic-s"><use href="#i-share"/></svg>Paylaş</button>
+        <button class="btn soft sm" id="pdfAskBtn"><svg class="ic ic-s"><use href="#i-spark"/></svg>Soru sor</button>
+      </div>
+      <div class="hint" style="margin-top:8px">${byModel
+        ? "Model tarafından özetlendi. Kritik kararlar için belgeye dön."
+        : "Yerel cümle-skorlama: belgedeki en bilgi yoğun cümleler seçildi. Uydurma yok, ama yorum da yok."}</div>
+    </div>`;
+
+  $("#pdfCopyBtn").onclick = () => copyText(S.lastAnswer);
+  $("#pdfShareBtn").onclick = () => { if (navigator.share) navigator.share({ text: S.lastAnswer }).catch(()=>{}); else copyText(S.lastAnswer); };
+  $("#pdfAskBtn").onclick = () => {
+    setMode("chat");
+
+  // Dosyadan (file://) açıldıysa uyar + mikrofonu yumuşak kapat
+  if (location.protocol === "file:"){
+    const b = document.getElementById("fileBanner");
+    if (b) b.hidden = false;
+    S.isFile = true;
+    const mic = document.getElementById("micInline");
+    if (mic){
+      mic.style.opacity = ".5";
+      mic.title = "Dosyadan açıldığında mikrofon kısıtlı — metinle sor";
+    }
+  }
+    $("#userInput").value = `Şu belge hakkında: ${S.pdf.name}\n\n` + S.pdf.text.slice(0, 3000) + "\n\nSoru: ";
+    autoGrow($("#userInput"));
+    $("#userInput").focus();
+  };
+}
+
+/* -------------------- 15. SES STÜDYOSU -------------------- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+function voiceSupported(){ return !!SR; }
+
+function srAvailable(){ return !!(window.SpeechRecognition || window.webkitSpeechRecognition); }
+function ttsAvailable(){ return !!window.speechSynthesis; }
+
+function updateCapBar(){
+  const bar = document.getElementById("capBar");
+  const mic = document.getElementById("micInline");
+  if (mic){
+    mic.style.opacity = "1";
+    mic.title = srAvailable() ? "Yazıya çevir" : "Konuşma tanıma yok — dokun ve nedenini gör";
+  }
+  if (!bar) return;
+  const sr = srAvailable();
+  const tts = ttsAvailable();
+  const v = pickVoice();
+  const q = voiceQuality();
+  const mk = (ok, label, extra) => `<span class="tag ${ok ? "g" : "r"}" style="font-size:10px;padding:3px 8px">${label}${extra ? " · " + extra : ""}</span>`;
+  bar.innerHTML =
+      mk(sr, sr ? "Tanıma açık" : "Tanıma yok")
+    + mk(!!v, v ? "Ses var" : "Ses yok", v ? q.level : "")
+    + (q.ok ? "" : `<button class="btn sm soft" style="padding:5px 10px;font-size:10.5px" onclick="openSheet('voiceSetupSheet')">Ses kur</button>`);
+}
+
+async function ensureMic(){
+  if (!navigator.mediaDevices?.getUserMedia) return { ok:false, why:"desteklenmiyor" };
+  try {
+    const st = await navigator.mediaDevices.getUserMedia({ audio:true });
+    st.getTracks().forEach(t => t.stop());
+    return { ok:true };
+  } catch (e){
+    const why = e.name === "NotAllowedError" ? "izin-yok"
+      : e.name === "NotFoundError" ? "mikrofon-yok"
+      : e.name === "NotReadableError" ? "mikrofon-mesgul" : e.name;
+    return { ok:false, why };
+  }
+}
+
+async function startVoice(target = "chat"){
+  // Artik ayri panel var: dogrudan sesli sohbete gec
+  setMode("voice");
+  setTimeout(() => { if (!VC.on) voiceStart(); }, 260);
+  return;
+}
+
+/* ============================================================
+   SESLİ SOHBET PANELİ — karşılıklı konuşma döngüsü
+   Panel açık kalır; dinle → düşün → konuş → tekrar dinle
+   ============================================================ */
+const VC = { on:false, rec:null, busy:false };
+
+function vLogAdd(who, text){
+  const box = document.getElementById("voiceLog");
+  if (!box) return null;
+  const el = document.createElement("div");
+  el.className = "vb " + (who === "me" ? "me" : "bot");
+  el.innerHTML = `<div class="av"><svg class="ic ic-s"><use href="#${who === "me" ? "i-spark" : "i-code"}"/></svg></div>
+    <div class="t">${esc(text).replace(/\n/g, "<br>")}</div>`;
+  box.appendChild(el);
+  box.scrollTop = box.scrollHeight;
+  return el;
+}
+function vLogSet(el, text){
+  if (!el) return;
+  el.querySelector(".t").innerHTML = esc(text).replace(/\n/g, "<br>");
+  const box = document.getElementById("voiceLog");
+  if (box) box.scrollTop = box.scrollHeight;
+}
+function vState(txt, live){
+  const s = document.getElementById("voiceState2");
+  const l = document.getElementById("voiceLive");
+  if (s) s.textContent = txt;
+  if (l && live !== undefined) l.textContent = live;
+}
+function vWave(on){ document.getElementById("wave2")?.classList.toggle("run", on); }
+function vOrb(on){ document.getElementById("orb2")?.classList.toggle("speaking", on); }
+
+function voiceClear(){
+  const box = document.getElementById("voiceLog");
+  if (box) box.innerHTML = "";
+  vState("HAZIR", "Başlamak için düğmeye bas, sonra normal konuş.");
+}
+function voiceToggle(){ VC.on ? voiceStop() : voiceStart(); }
+
+async function voiceStart(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){ showSrHelp(); return; }
+  const mic = await ensureMic();
+  if (!mic.ok){
+    const why = {
+      "izin-yok": "Mikrofon izni verilmedi. Adres çubuğundaki kilit → Mikrofon → İzin ver.",
+      "mikrofon-yok": "Cihazda mikrofon bulunamadı.",
+      "mikrofon-mesgul": "Mikrofon başka uygulamada kullanımda.",
+    }[mic.why] || "Mikrofon açılamadı: " + mic.why;
+    vState("MİKROFON YOK", why);
+    toast(why, "err", 5200);
+    return;
+  }
+  const tts = ttsAvailable();
+  VC.on = true;
+  stopSpeaking();
+  S.cfg.tts = true; saveCfg();
+  if (!tts) toast("Sesli okuma (TTS) yok — cevabı yazılı göreceksin", "err", 4600);
+  const btn = document.getElementById("voiceMainBtn");
+  if (btn) btn.innerHTML = '<svg class="ic ic-s"><use href="#i-stop"/></svg>Bitir';
+  vLogAdd("bot", "Dinliyorum, konuş.");
+  voiceListen();
+}
+
+function showSrHelp(){
+  const box = document.getElementById("voiceLog");
+  if (box){
+    const d = document.createElement("div");
+    d.className = "card tight";
+    d.style.borderColor = "rgba(239,68,68,.35)";
+    d.innerHTML = `<b style="font-size:12.5px;color:#fca5a5">Konuşma tanıma bu tarayıcıda yok</b>
+      <div class="hint" style="margin-top:7px;line-height:1.65">
+      <b>Bilgisayar:</b> Chrome veya Edge kullan (Firefox desteklemez).<br>
+      <b>Android:</b> Chrome kullan ve <b>Google</b> uygulamasını kur.<br>
+      <b>Edge'de</b> mikrofon iznini ver: adres çubuğundaki kilit → Mikrofon → İzin ver.<br><br>
+      Yine de her şey çalışır: yazarak sorabilir, + menüsünden fotoğraf/PDF ekleyebilirsin.</div>
+      <button class="btn soft sm wide" style="margin-top:9px" onclick="openSheet('voiceSetupSheet')">Ses ve mikrofon kurulumu</button>`;
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+  }
+  toast("Konuşma tanıma yok — Chrome/Edge gerek", "err", 5200);
+}
+
+function voiceStop(silent){
+  VC.on = false; VC.busy = false;
+  try { VC.rec?.abort(); } catch {}
+  VC.rec = null;
+  stopSpeaking();
+  vWave(false); vOrb(false);
+  const btn = document.getElementById("voiceMainBtn");
+  if (btn) btn.innerHTML = '<svg class="ic ic-s"><use href="#i-mic"/></svg>Sohbete başla';
+  vState("DURDU", silent ? "" : "Sohbet bitti. Tekrar başlatabilirsin.");
+}
+
+function voiceListen(){
+  if (!VC.on) return;
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let finalText = "";
+  try { VC.rec?.abort(); } catch {}
+  const r = new SR();
+  VC.rec = r;
+  r.lang = "tr-TR"; r.continuous = false; r.interimResults = true; r.maxAlternatives = 1;
+
+  vState("DİNLİYOR", "Konuş…");
+  vWave(true); vOrb(false);
+
+  r.onresult = e => {
+    let interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++){
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) finalText += t; else interim += t;
+    }
+    if (interim) vState("DİNLİYOR", interim);
+  };
+
+  r.onerror = ev => {
+    const m = {
+      "not-allowed": "Mikrofon izni yok.",
+      "service-not-allowed": "Konuşma servisi yok — Google uygulaması gerekir.",
+      "language-not-supported": "Türkçe konuşma motoru kurulu değil.",
+      "no-speech": "",
+      "audio-capture": "Mikrofon bulunamadı.",
+      "network": "Konuşma servisi ağa ulaşamadı.",
+      "aborted": "",
+    }[ev.error];
+    if (m){
+      toast(m, "err", 4800);
+      vState("DURDU", m);
+      if (ev.error !== "no-speech") { voiceStop(true); return; }
+    }
+  };
+
+  r.onend = () => {
+    vWave(false);
+    if (!VC.on) return;
+    const text = finalText.trim();
+    if (text) return voiceTurn(text);
+    vState("BEKLİYOR", "Ses duymadım, tekrar konuş.");
+    setTimeout(() => { if (VC.on && !VC.busy) voiceListen(); }, 700);
+  };
+
+  try { r.start(); } catch { setTimeout(() => { if (VC.on) voiceListen(); }, 500); }
+}
+
+async function voiceTurn(text){
+  VC.busy = true;
+  vLogAdd("me", text);
+  const live = vLogAdd("bot", "…");
+  vState("DÜŞÜNÜYOR", text);
+  vOrb(true);
+
+  const fast = quickReply(text);
+  if (fast){
+    vLogSet(live, fast);
+    S.lastAnswer = fast;
+    VC.busy = false;
+    vState("KONUŞUYOR", fast);
+    S.msgs.push({ role:"user", content:text }, { role:"bot", content:fast }); saveChat();
+    speak(fast, () => { if (VC.on) voiceListen(); });
+    return;
+  }
+
+  try {
+    const answer = await llm([
+      { role:"system", content: sysPrompt("chat") + "\nSesli sohbet: 1-2 cümle, en fazla 40 kelime. Kısa ve doğal konuş." },
+      ...S.msgs.slice(-4).map(m => ({ role: m.role === "bot" ? "assistant" : "user", content: m.content })),
+    ], { mode:"chat", temp:0.5, max: 260 });
+
+    const out = answer || localAnswer(text, "chat");
+    vLogSet(live, out);
+    S.msgs.push({ role:"user", content:text }, { role:"bot", content:out });
+    saveChat();
+    S.lastAnswer = out;
+    VC.busy = false;
+    vState("KONUŞUYOR", out);
+    speak(out, () => { if (VC.on) voiceListen(); });
+  } catch (e){
+    vLogSet(live, "Bağlanamadım, tekrar söyle.");
+    VC.busy = false;
+    if (VC.on) setTimeout(() => voiceListen(), 900);
+  }
+}
+
+/* ---------- YAZILI MODDA MİKROFON: sadece yazıya çevirir ---------- */
+let DICT = { rec:null, on:false };
+function dictate(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){
+    toast("Konuşma tanıma yok. Chrome/Edge kullan veya + menüsünden yaz.", "err", 5200);
+    openSheet("voiceSetupSheet");
+    return;
+  }
+  if (DICT.on){ try { DICT.rec?.stop(); } catch {} DICT.on = false; setDictUI(false); return; }
+  stopSpeaking();
+  const inp = document.getElementById("userInput");
+  const base = inp.value;
+  const r = new SR();
+  DICT.rec = r; DICT.on = true; setDictUI(true);
+  r.lang = "tr-TR"; r.continuous = false; r.interimResults = true;
+  r.onresult = e => {
+    let fin = "", interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++){
+      const t = e.results[i][0].transcript;
+      if (e.results[i].isFinal) fin += t; else interim += t;
+    }
+    inp.value = (base ? base + " " : "") + fin + interim;
+    autoGrow(inp);
+  };
+  r.onerror = ev => {
+    const m = {
+      "not-allowed": "Mikrofon izni yok.",
+      "language-not-supported": "Türkçe konuşma motoru kurulu değil.",
+      "network": "Konuşma servisi ağa ulaşamadı.",
+      "no-speech": "Ses duyulmadı.",
+    }[ev.error];
+    if (m) toast(m, "err", 4200);
+  };
+  r.onend = () => { DICT.on = false; setDictUI(false); inp.focus(); };
+  try { r.start(); } catch { DICT.on = false; setDictUI(false); toast("Mikrofon başlatılamadı", "err"); }
+}
+function setDictUI(on){
+  const b = document.getElementById("micInline");
+  if (b){
+    b.classList.toggle("rec", on);
+    b.title = on ? "Dinliyor… durdurmak için bas" : "Yazıya çevir";
+    b.style.opacity = "1";
+  }
+  const d = document.getElementById("micDot");
+  if (d) d.hidden = !on;
+}
+
+/* ---------- + MENÜSÜ ---------- */
+function openAttach(){ openSheet("attachSheet"); }
+function pickCamera(){
+  closeSheet("attachSheet");
+  const c = document.getElementById("camInput");
+  if (c){ c.value = ""; c.click(); }
+}
+function pickGallery(){
+  closeSheet("attachSheet");
+  const i = document.getElementById("imgInput");
+  if (i){ i.value = ""; i.click(); }
+}
+function pickPdf(){
+  closeSheet("attachSheet");
+  setMode("media");
+  setTimeout(() => document.getElementById("pdfInput")?.click(), 200);
+}
+function pickFile(){
+  closeSheet("attachSheet");
+  setMode("media");
+  setTimeout(() => document.getElementById("fileInput")?.click(), 200);
+}
+
+
+/* Metni sese çevir — seçilebilir ses, hız ve perde */
+function allVoices(){
+  if (!window.speechSynthesis) return [];
+  return window.speechSynthesis.getVoices().filter(v => v && v.name);
+}
+
+/** Ses kalitesi puani: dogal/noral sesler uste, espeak/robotik en alta */
+function voiceScore(v){
+  let s = 0;
+  const n = (v.name + " " + v.voiceURI).toLowerCase();
+  if (/^tr/i.test(v.lang)) s += 100;
+  if (/natural|neural|online/.test(n)) s += 60;
+  if (/google/.test(n)) s += 50;
+  if (/emel|tolga|dilara|ahmet|yelda|filiz/.test(n)) s += 40;
+  if (/premium|enhanced|siri/.test(n)) s += 35;
+  if (/espeak|compact|pico|festival/.test(n)) s -= 120;
+  if (/microsoft/i.test(n)) s += 15;
+  if (v.localService) s += 5;
+  return s;
+}
+
+function pickVoice(){
+  const vs = allVoices();
+  if (!vs.length) return null;
+  if (S.cfg.voiceName){
+    const chosen = vs.find(v => v.name === S.cfg.voiceName);
+    if (chosen) return chosen;
+  }
+  const tr = vs.filter(v => /^tr/i.test(v.lang) || /turkish|türkçe/i.test(v.name));
+  const pool = tr.length ? tr : vs;
+  return pool.slice().sort((a, b) => voiceScore(b) - voiceScore(a))[0];
+}
+
+function voiceQuality(){
+  const v = pickVoice();
+  if (!v) return { ok:false, level:"yok", msg:"Cihazda ses motoru yok." };
+  const n = (v.name + " " + v.voiceURI).toLowerCase();
+  if (!/^tr/i.test(v.lang)) return { ok:false, level:"kotu", msg:`Türkçe ses yok: "${v.name}" yanlış telaffuz eder. Edge tarayıcısında doğal Türkçe ses var.` };
+  if (/espeak|compact|pico/.test(n)) return { ok:false, level:"robotik", msg:`"${v.name}" robotik ses. Edge (Microsoft Emel/Tolga) kullan.` };
+  if (/natural|neural|online|google/.test(n)) return { ok:true, level:"dogal", msg:`"${v.name}" - dogal ses.` };
+  return { ok:true, level:"normal", msg:`"${v.name}" - kabul edilebilir.` };
+}
+
+function renderVoiceOptions(){
+  const sel = document.getElementById("voiceSel");
+  const hint = document.getElementById("voiceHint");
+  if (!sel) return;
+  const vs = allVoices();
+  if (!vs.length){
+    sel.innerHTML = `<option value="">Ses bulunamadı</option>`;
+    if (hint) hint.textContent = "Bu cihazda ses motoru yok. Android: Ayarlar → Dil → Metin okuma → Türkçe paketi indir.";
+    return;
+  }
+  const tr = vs.filter(v => /^tr/i.test(v.lang) || /turkish|türkçe/i.test(v.name));
+  const others = vs.filter(v => !tr.includes(v));
+  const opt = v => `<option value="${esc(v.name)}" ${pickVoice()?.name === v.name ? "selected" : ""}>${esc(v.name)} (${esc(v.lang)})</option>`;
+  sel.innerHTML =
+    (tr.length ? `<optgroup label="Türkçe">${tr.map(opt).join("")}</optgroup>` : `<optgroup label="Türkçe ses yok">` +
+      `<option value="">— cihaza Türkçe ses kur —</option></optgroup>`) +
+    (others.length ? `<optgroup label="Diğer">${others.map(opt).join("")}</optgroup>` : "");
+  const q = voiceQuality();
+  const names = vs.map(v => v.name + " (" + v.lang + ")").join(" · ");
+  if (hint) hint.innerHTML = (q.ok
+      ? `<span style="color:#86efac">✔ ${esc(q.msg)}</span>`
+      : `<span style="color:#fca5a5">⚠ ${esc(q.msg)}</span>`) + `<br><span style="color:var(--dim2)">Bulunan sesler: ${esc(names.slice(0,140))}</span>`;
+  // tespit blogu
+  const box = document.getElementById("voiceFix");
+  if (box){
+    if (!q.ok){
+      box.hidden = false;
+      box.innerHTML = `<b style="color:#fcd34d">Ses düzeltme</b><br>
+        1) Bu sayfayı <b>Microsoft Edge</b>'de aç → Türkçe doğal sesler hazır gelir (Emel/Tolga).<br>
+        2) Windows: Ayarlar → Saat ve Dil → Konuşma → <b>Türkçe ses ekle</b>.<br>
+        3) Android: Ayarlar → Dil → Metin okuma → Google → <b>Türkçe indir</b>.<br>
+        4) Sonra burada <b>Yenile</b> düğmesine bas.`;
+    } else box.hidden = true;
+  }
+}
+async function runVoiceDiag(){
+  const out = document.getElementById("diagOut");
+  if (!out) return;
+  out.hidden = false;
+  out.textContent = "Ölçülüyor…";
+  const L = [];
+  L.push("== SES TANILAMA ==");
+  L.push("protokol: " + location.protocol + (location.protocol === "file:" ? "  ⚠ dosyadan (mic kısıtlı)" : ""));
+  L.push("tarayıcı: " + (navigator.userAgent.match(/(Chrome|Edg|Firefox|Safari)\/[\d.]+/g) || []).slice(-2).join(" · "));
+
+  // 1) konuşma tanıma
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  L.push("konuşma tanıma: " + (SR ? "VAR ✓" : "YOK ✗ (Chrome/Edge gerek)"));
+  if (!SR) L.push("   → Android: Google uygulamasını kur · Masaüstü: Chrome/Edge kullan");
+
+  // 2) mikrofon izni
+  try {
+    const p = await navigator.permissions.query({ name:"microphone" });
+    L.push("mikrofon izni: " + p.state);
+  } catch { L.push("mikrofon izni: sorgulanamıyor"); }
+  const mic = await ensureMic();
+  L.push("mikrofon erişimi: " + (mic.ok ? "AÇIK ✓" : "KAPALI ✗ → " + mic.why));
+
+  // 3) sesler
+  const vs = allVoices();
+  const tr = vs.filter(v => /^tr/i.test(v.lang));
+  L.push("toplam ses: " + vs.length + " · Türkçe: " + tr.length);
+  const v = pickVoice();
+  L.push("seçili ses: " + (v ? v.name + " (" + v.lang + ")" : "yok"));
+  const q = voiceQuality();
+  L.push("ses kalitesi: " + q.level.toUpperCase() + " → " + q.msg);
+
+  // 4) sorun tespiti
+  const sorun = [];
+  if (!SR) sorun.push("konuşma tanıma yok");
+  if (!mic.ok) sorun.push("mikrofon erişimi yok");
+  if (!tr.length) sorun.push("Türkçe ses yok (robotik okur)");
+  if (v && /espeak|compact|pico/i.test(v.name)) sorun.push("seçili ses robotik (eSpeak)");
+  if (location.protocol === "file:") sorun.push("dosyadan açıldı (mic kısıtlı)");
+
+  L.push("");
+  L.push(sorun.length ? "SORUN: " + sorun.join(" + ") : "SORUN YOK ✓ ses hazır");
+  L.push("");
+  L.push("ÇÖZÜM:");
+  if (!tr.length || (v && /espeak/i.test(v.name))){
+    L.push("• Doğal Türkçe ses için bu sayfayı Microsoft Edge'de aç");
+    L.push("• Windows: Ayarlar → Saat ve Dil → Konuşma → Türkçe ses ekle");
+    L.push("• Android: Ayarlar → Dil → Metin okuma → Google → Türkçe indir");
+  }
+  if (!SR) L.push("• Android: Play Store → Google uygulaması");
+  if (!mic.ok) L.push("• Adres çubuğundaki kilit → Mikrofon → İzin ver");
+
+  out.textContent = L.join("\n");
+  window.__diag = L.join("\n");
+  copyText(window.__diag);
+  toast("Tanılama kopyalandı — bana yapıştırabilirsin", "ok", 3200);
+}
+function renderVoiceTestList(){
+  const box = document.getElementById("voiceTestList");
+  if (!box) return;
+  const vs = allVoices();
+  if (!vs.length){
+    box.innerHTML = `<div class="hint" style="color:#fca5a5">Cihazda hiç ses bulunamadı. Aşağıdaki adımları uygula.</div>`;
+    return;
+  }
+  const sorted = vs.slice().sort((a, b) => voiceScore(b) - voiceScore(a));
+  box.innerHTML = sorted.map(v => {
+    const sc = voiceScore(v);
+    const tr = /^tr/i.test(v.lang);
+    const good = sc >= 100;
+    const bad = /espeak|compact|pico/i.test(v.name + v.voiceURI);
+    const label = tr ? (good ? "doğal" : "normal") : "Türkçe değil";
+    const color = tr ? (good ? "#86efac" : "#fcd34d") : "#fca5a5";
+    return `<div class="list-item" style="padding:9px 10px">
+      <div class="li" style="width:30px;height:30px;font-size:12px">${sc}</div>
+      <div class="ln"><b style="font-size:12px">${esc(v.name)}</b>
+        <span style="color:${color}">${v.lang} · ${label}${bad ? " · robotik" : ""}</span></div>
+      <button class="btn sm ghost" style="padding:6px 10px" onclick="previewVoice('${esc(v.name).replace(/'/g, "\\'")}')">
+        <svg class="ic ic-s"><use href="#i-play"/></svg>
+      </button>
+    </div>`;
+  }).join("");
+}
+
+function previewVoice(name){
+  const v = allVoices().find(x => x.name === name);
+  if (!v) return toast("Ses bulunamadı", "err");
+  stopSpeaking();
+  const u = new SpeechSynthesisUtterance("Merhaba, ben PerfectCode. Bu ses tonu size uygun mu? Kod yazabilir, sorularınızı yanıtlayabilirim.");
+  u.voice = v;
+  u.lang = /^tr/i.test(v.lang) ? v.lang : "tr-TR";
+  u.rate = clamp(+S.cfg.rate || 1, 0.6, 1.6);
+  u.pitch = clamp(+S.cfg.pitch || 1, 0.5, 1.6);
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+  if (/^tr/i.test(v.lang)){ S.cfg.voiceName = v.name; saveCfg(); toast(v.name + " seçildi", "ok", 1600); }
+  else toast("Bu ses Türkçe değil — telaffuz bozuk olur", "err", 3000);
+}
+
+async function micTest(){
+  const out = document.getElementById("micTestOut");
+  if (out) out.textContent = "Test ediliyor…";
+  const r = await ensureMic();
+  const sr = srAvailable();
+  const msg = r.ok
+    ? "✔ Mikrofon erişimi açık." + (sr ? " Konuşma tanıma hazır." : " Ancak konuşma tanıma yok (Chrome/Edge gerek).")
+    : "✖ Mikrofon açılamadı: " + r.why + " → adres çubuğundaki kilitten izin ver.";
+  if (out){ out.textContent = msg; out.style.color = r.ok && sr ? "#86efac" : "#fca5a5"; }
+  toast(msg, r.ok && sr ? "ok" : "err", 4200);
+}
+
+function reloadVoices(){
+  if (window.speechSynthesis) window.speechSynthesis.getVoices();
+  renderVoiceOptions();
+  renderVoiceTestList();
+  updateCapBar();
+  const q = voiceQuality();
+  toast(q.ok ? "Ses hazır: " + q.msg : q.msg, q.ok ? "ok" : "err", 3600);
+}
+function setRate(v){
+  S.cfg.rate = +v; saveCfg();
+  const el = document.getElementById("rateVal");
+  if (el) el.textContent = (+v).toFixed(1) + "×";
+}
+function setPitch(v){
+  S.cfg.pitch = +v; saveCfg();
+  const el = document.getElementById("pitchVal");
+  if (el) el.textContent = (+v).toFixed(1);
+}
+function testVoice(){
+  S.cfg.tts = true; saveCfg(); syncToggles();
+  speak("Merhaba, ben PerfectCode Stüdyo. Kod yazabilir, araştırma yapabilir, belge özetleyebilirim. Sesimi beğendin mi?");
+}
+
+/* Uzun metni cumlelere bolup sirayla okur: Chrome 15 sn'de kesiyor, bu yontem kesilmeyi bitirir */
+let SPEAK_QUEUE = [];
+let SPEAKING = false;
+
+function splitForSpeech(text, limit = 120){
+  const parts = String(text)
+    .replace(/```[\s\S]*?```/g, " kod blogu ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[#*_`>|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(/(?<=[.!?:])\s+/);
+  const out = [];
+  let cur = "";
+  for (const p of parts){
+    if ((cur + " " + p).length > limit && cur){ out.push(cur.trim()); cur = p; }
+    else cur += " " + p;
+  }
+  if (cur.trim()) out.push(cur.trim());
+  return out.filter(s => s.length > 1);
+}
+
+function speak(text, onDone){
+  if (!window.speechSynthesis) return toast("Bu tarayicida sesli okuma yok", "err");
+  const q = voiceQuality();
+  if (!q.ok) toast(q.msg, "err", 6000);
+
+  const maxLen = S.cfg.answerLen === "short" ? 340 : S.cfg.answerLen === "long" ? 1600 : 750;
+  let clean = String(text)
+    .replace(/```[\s\S]*?```/g, " kod blogu ")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/[#*_`>|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (clean.length > maxLen) clean = clean.slice(0, maxLen);
+
+  stopSpeaking();
+  SPEAK_QUEUE = splitForSpeech(clean);
+  if (!SPEAK_QUEUE.length){ if (typeof onDone === "function") onDone(); return; }
+  SPEAKING = true;
+  const st = document.getElementById("voiceState2");
+  if (st) st.textContent = "KONUŞUYOR";
+
+  const finish = () => {
+    SPEAKING = false;
+    document.getElementById("wave2")?.classList.remove("run");
+    document.getElementById("orb2")?.classList.remove("speaking");
+    if (typeof onDone === "function") { try { onDone(); } catch {} }
+  };
+
+  const next = () => {
+    if (!SPEAKING || !SPEAK_QUEUE.length) return finish();
+    const chunk = SPEAK_QUEUE.shift();
+    const u = new SpeechSynthesisUtterance(chunk);
+    const v = pickVoice();
+    if (v) u.voice = v;
+    u.lang = v && /^tr/i.test(v.lang) ? v.lang : "tr-TR";
+    u.rate = clamp(+S.cfg.rate || 1.0, 0.6, 1.6);
+    u.pitch = clamp(+S.cfg.pitch || 1, 0.5, 1.6);
+    u.volume = 1;
+    u.onstart = () => {
+      document.getElementById("wave2")?.classList.add("run");
+      document.getElementById("orb2")?.classList.add("speaking");
+      const live = document.getElementById("voiceLive");
+      if (S.mode === "voice" && live) live.textContent = chunk.slice(0, 140);
+    };
+    u.onend = () => setTimeout(next, 40);
+    u.onerror = () => setTimeout(next, 40);
+    window.speechSynthesis.speak(u);
+  };
+  next();
+}
+
+function stopSpeaking(){
+  SPEAKING = false;
+  SPEAK_QUEUE = [];
+  try { window.speechSynthesis.cancel(); } catch {}
+}
+
+function speakEl(el){
+  const t = el.querySelector(".bubble")?.innerText || "";
+  speak(t);
+}
+
+/* -------------------- 16. AYARLAR / YARDIMCI -------------------- */
+function toggleSetting(key){
+  S.cfg[key] = !S.cfg[key];
+  saveCfg();
+  syncToggles();
+  renderChips();
+}
+function setLen(v){
+  S.cfg.answerLen = v; saveCfg();
+  ["short","normal","long"].forEach(k => {
+    const b = document.getElementById("len-" + k);
+    if (!b) return;
+    b.className = "btn sm" + (k === v ? " primary" : " ghost");
+  });
+  toast(({short:"Kısa cevap",normal:"Orta uzunluk",long:"Detaylı cevap"})[v], "ok", 1300);
+}
+function syncToggles(){
+  ["short","normal","long"].forEach(k => {
+    const b = document.getElementById("len-" + k);
+    if (!b) return;
+    const on = (S.cfg.answerLen || "short") === k;
+    b.className = "btn sm" + (on ? " primary" : " ghost");
+  });
+  $$(".tgl").forEach(t => t.classList.toggle("on", !!S.cfg[t.dataset.key]));
+}
+async function testOllama(){
+  const url = $("#ollamaUrl").value.trim();
+  const el = $("#ollamaTest");
+  if (!url) { el.textContent = "Adres gir (örn: http://192.168.1.20:11434)"; return; }
+  el.textContent = "Test ediliyor…";
+  try {
+    const r = await fetch(url.replace(/\/$/, "") + "/api/tags", { signal: AbortSignal.timeout(6000) });
+    const j = await r.json();
+    const models = (j.models || []).map(m => m.name).slice(0, 4);
+    el.innerHTML = `<span style="color:#86efac">✔ Bağlandı</span> · ${models.length} model: ${esc(models.join(", ") || "-")}`;
+  } catch (e){
+    el.innerHTML = `<span style="color:#fca5a5">✖ Bağlanamadı</span> · CORS veya ağ. Ollama: <code>OLLAMA_ORIGINS=* ollama serve</code>`;
+  }
+}
+function saveOllama(){
+  S.cfg.ollama = $("#ollamaUrl").value.trim();
+  saveCfg();
+  if (typeof renderEngines === "function") renderEngines();
+  if (S.cfg.ollama){ $("#engineChip").textContent = "OLLAMA"; $("#engineChip").className = "chip warn"; }
+}
+function copyText(t){
+  if (!t) return;
+  const s = String(t);
+  if (navigator.clipboard?.writeText){
+    navigator.clipboard.writeText(s).then(() => toast("Kopyalandı", "ok", 1400)).catch(() => fallbackCopy(s));
+  } else fallbackCopy(s);
+}
+function fallbackCopy(s){
+  const ta = document.createElement("textarea");
+  ta.value = s; ta.style.position = "fixed"; ta.style.opacity = "0";
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand("copy"); toast("Kopyalandı", "ok", 1400); } catch { toast("Kopyalanamadı", "err"); }
+  ta.remove();
+}
+function goHome(){
+  if (typeof voiceStop === "function") voiceStop(true);
+  setMode("chat");
+  const home = document.getElementById("chatEmpty");
+  if (home){
+    home.hidden = false;
+    home.scrollIntoView({ behavior:"smooth", block:"start" });
+  }
+}
+
+function newChat(){
+  S.msgs = [];
+  try { localStorage.removeItem(CHAT_KEY); } catch {}
+  const box = document.getElementById("msgs");
+  if (box) box.innerHTML = "";
+  const empty = document.getElementById("chatEmpty");
+  if (empty) empty.hidden = false;
+  if (typeof voiceStop === "function") voiceStop(true);
+  setMode("chat");
+  toast("Yeni sohbet", "ok", 1400);
+}
+
+function exportChat(){
+  const txt = S.msgs.map(m => (m.role === "user" ? "SEN: " : "AI: ") + m.content).join("\n\n---\n\n");
+  if (!txt) return toast("Sohbet boş", "err");
+  const blob = new Blob([txt], { type:"text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "perfectcode-sohbet-" + new Date().toISOString().slice(0,10) + ".txt";
+  a.click();
+  toast("Sohbet kaydedildi", "ok");
+}
+function exportResearch(){
+  exportChat();
+}
+/* ---- Kod kütüphanesi (cihazda) ---- */
+const SNIP_KEY = "pc_snips_v3";
+function getSnips(){
+  try { return JSON.parse(localStorage.getItem(SNIP_KEY) || "[]"); } catch { return []; }
+}
+function saveSnippet(){
+  if (!S.code.text) return toast("Önce kod üret", "err");
+  const list = getSnips();
+  const title = (S.code.lastPrompt || "Kod").slice(0, 54);
+  list.unshift({ title, lang: S.code.lang, code: S.code.text, ts: Date.now() });
+  try { localStorage.setItem(SNIP_KEY, JSON.stringify(list.slice(0, 30))); } catch { return toast("Depolama dolu", "err"); }
+  toast("Kütüphaneye kaydedildi", "ok");
+}
+function openSnippets(){
+  const list = getSnips();
+  const box = $("#snipList");
+  if (!list.length){
+    box.innerHTML = `<div class="empty" style="padding:18px 0">
+      <b>Henüz kayıt yok</b><p>Kod Lab'da kod üret, sonra kaydet düğmesine bas.</p></div>`;
+  } else {
+    box.innerHTML = list.map((s, i) => `
+      <div class="list-item">
+        <div class="li"><svg class="ic"><use href="#i-code"/></svg></div>
+        <div class="ln" onclick="loadSnippet(${i})" style="cursor:pointer">
+          <b>${esc(s.title)}</b>
+          <span>${esc(s.lang)} · ${new Date(s.ts).toLocaleDateString("tr-TR")} · ${s.code.split("\n").length} satır</span>
+        </div>
+        <button class="icon-btn" style="width:32px;height:32px" onclick="delSnippet(${i})"><svg class="ic ic-s"><use href="#i-trash"/></svg></button>
+      </div>`).join("");
+  }
+  openSheet("snipSheet");
+}
+function loadSnippet(i){
+  const s = getSnips()[i];
+  if (!s) return;
+  S.code = { lang: s.lang, text: s.code, lastPrompt: s.title };
+  $("#codeLang").value = s.lang;
+  $("#codeOut").innerHTML = highlight(s.code);
+  $("#codeBadge").textContent = "KÜTÜPHANE · " + s.lang;
+  $("#codeResult").hidden = false;
+  $("#codeScoreCard").hidden = false;
+  $("#runCard").hidden = true;
+  scoreCode(s.code);
+  setMode("code");
+  closeSheet("snipSheet");
+  toast("Kod yüklendi", "ok");
+}
+function delSnippet(i){
+  const list = getSnips();
+  list.splice(i, 1);
+  try { localStorage.setItem(SNIP_KEY, JSON.stringify(list)); } catch {}
+  openSnippets();
+}
+
+function clearAll(){
+  if (!confirm("Tüm sohbet ve ayarlar silinsin mi?")) return;
+  localStorage.removeItem(CHAT_KEY);
+  localStorage.removeItem(CFG_KEY);
+  localStorage.removeItem(SNIP_KEY);
+  S.msgs = [];
+  $("#msgs").innerHTML = "";
+  $("#chatEmpty").hidden = false;
+  toast("Temizlendi", "ok");
+}
+
+/* -------------------- 17. BAŞLAT -------------------- */
+function init(){
+  loadCfg();
+  loadChat();
+  renderModels();
+  renderSugg();
+  syncToggles();
+  $("#ollamaUrl").value = S.cfg.ollama || "";
+
+  // geçmişi bas
+  if (S.msgs.length){
+    $("#chatEmpty").hidden = true;
+    S.msgs.forEach(m => renderMsg(m, false));
+    scrollChat();
+    setTimeout(() => toast(S.msgs.length + " mesajlık sohbet geri yüklendi", "ok", 2200), 700);
+  }
+
+  // metin girişi büyütme
+  autoGrow($("#userInput"));
+
+  // mobil klavye / yükseklik
+  const vh = () => document.documentElement.style.setProperty("--vh", window.innerHeight * 0.01 + "px");
+  vh(); window.addEventListener("resize", vh);
+
+  // durum: hicbir dugme devre disi birakilmaz, sebebi gosterilir
+  updateCapBar();
+
+  setMode("chat");
+
+  // ana ekran kartları karşılıyor — ek karşılama mesajına gerek yok
+}
+document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") saveChat(); });
+window.addEventListener("pagehide", () => saveChat());
+</script>
+
+<script>
+"use strict";
+/* -------------------- 17b. PROJE DOSYALARI -------------------- */
+async function pdfTextFromFile(f){
+  if (!window.pdfjsLib) await loadScript("https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js");
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+  const doc = await window.pdfjsLib.getDocument({ data: await f.arrayBuffer() }).promise;
+  let out = "";
+  const n = Math.min(doc.numPages, 40);
+  for (let i = 1; i <= n; i++){
+    const page = await doc.getPage(i);
+    const c = await page.getTextContent();
+    out += c.items.map(it => it.str).join(" ") + "\n";
+  }
+  return out;
+}
+
+function initProjectInput(){
+  const inp = document.getElementById("fileInput");
+  if (!inp) return;
+  inp.addEventListener("change", async e => {
+    const files = [...(e.target.files || [])];
+    if (!files.length) return;
+    for (const f of files){
+      if (S.project.length >= 10) { toast("En fazla 10 dosya", "err", 1800); break; }
+      try {
+        let text = "";
+        if (/pdf$/i.test(f.name) || f.type === "application/pdf") text = await pdfTextFromFile(f);
+        else text = await f.text();
+        text = String(text || "").slice(0, 60000);
+        if (text.trim()) S.project.push({ name: f.name, text, size: f.size });
+      } catch (err){ toast(f.name + " okunamadı", "err", 2000); }
+    }
+    e.target.value = "";
+    renderFileList(); renderChips();
+  });
+}
+
+function renderFileList(){
+  const box = document.getElementById("fileList");
+  if (!box) return;
+  if (!S.project.length){ box.innerHTML = ""; return; }
+  box.innerHTML = S.project.map((f, i) => `
+    <div class="pdf-item">
+      <div class="pi" style="background:rgba(59,130,246,.14);color:#93c5fd"><svg class="ic ic-s"><use href="#i-doc"/></svg></div>
+      <div class="pn"><div>${esc(f.name)}</div><div>${(f.text.length/1000).toFixed(1)}k karakter</div></div>
+      <button class="icon-btn" style="width:30px;height:30px" onclick="removeFile(${i})"><svg class="ic ic-s"><use href="#i-x"/></svg></button>
+    </div>`).join("");
+}
+function removeFile(i){ S.project.splice(i, 1); renderFileList(); renderChips(); }
+
+function projectContext(limit = 9000){
+  if (!S.project.length) return "";
+  const per = Math.max(1500, Math.floor(limit / S.project.length));
+  return S.project.map(f => `### DOSYA: ${f.name}\n${f.text.slice(0, per)}`).join("\n\n");
+}
+
+/* -------------------- 18. BİLGİ ERİŞİMİ (anahtarsız) --------------------
+   Wikipedia + DuckDuckGo. CORS açık, anahtar yok, kota yok.
+   Gelen veri modele "kanıt" olarak verilir; model uydurmak yerine kullanır.
+------------------------------------------------------------------------- */
+const WIKI = { tr:"https://tr.wikipedia.org", en:"https://en.wikipedia.org" };
+
+async function wikiSearch(q, limit = 3, lang = "tr"){
+  const u = `${WIKI[lang]}/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(q)}&format=json&origin=*&srlimit=${limit}`;
+  const j = await fetchJSON(u, {}, 12000);
+  return (j.query?.search || []).map(s => s.title);
+}
+
+async function wikiSummary(title, lang = "tr"){
+  const slug = encodeURIComponent(title.replace(/ /g, "_"));
+  const j = await fetchJSON(`${WIKI[lang]}/api/rest_v1/page/summary/${slug}`, {}, 12000);
+  return {
+    title: j.title || title,
+    extract: (j.extract || "").slice(0, 1100),
+    url: j.content_urls?.desktop?.page || `${WIKI[lang]}/wiki/${slug}`,
+  };
+}
+
+async function ddgAnswer(q){
+  const u = `https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`;
+  const j = await fetchJSON(u, {}, 12000);
+  const out = [];
+  if (j.AbstractText) out.push({ title: j.Heading || "DuckDuckGo", extract: j.AbstractText, url: j.AbstractURL, kind: "Özet kaynak" });
+  if (j.Answer) out.push({ title: "Doğrudan cevap", extract: String(j.Answer).slice(0, 400), url: "https://duckduckgo.com/?q=" + encodeURIComponent(q), kind: "Hesap/veri" });
+  (j.RelatedTopics || []).slice(0, 3).forEach(t => {
+    if (t.Text && t.FirstURL) out.push({ title: t.Text.slice(0, 90), extract: t.Text.slice(0, 500), url: t.FirstURL, kind: "İlgili konu" });
+  });
+  return out;
+}
+
+/** Soruya gerçek kaynak toplar; başarısız olursa boş döner (uydurmaz). */
+async function gatherKnowledge(q, deep = false){
+  const sources = [];
+  const push = s => { if (s && s.extract && s.extract.length > 40 && !sources.some(x => x.url === s.url)) sources.push(s); };
+
+  try { (await ddgAnswer(q)).forEach(push); } catch {}
+
+  let titles = [];
+  try { titles = await wikiSearch(q, deep ? 3 : 2, "tr"); } catch {}
+  if (!titles.length){ try { titles = await wikiSearch(q, 2, "en"); } catch {} }
+  for (const t of titles.slice(0, deep ? 3 : 2)){
+    try {
+      const lang = /\b(the|of|and)\b/i.test(q) ? "en" : "tr";
+      const s = await wikiSummary(t, lang);
+      push({ ...s, kind: "Wikipedia" });
+    } catch {}
+  }
+
+  const ctx = sources.slice(0, 4).map((s, i) =>
+    `[${i+1}] ${s.title} (${s.kind})\n${s.extract}`
+  ).join("\n\n");
+
+  return { ctx, sources: sources.slice(0, 4) };
+}
+
+/** Hangi mesajda kaynak taransın? Kod isteklerinde tarama (hız için). */
+function needsKnowledge(text){
+  if (!S.cfg.web) return false;
+  if (text.length < 14) return false;
+  if (/```/.test(text)) return false;
+  if (/(kod yaz|fonksiyon yaz|refactor|hata düzelt|test yaz|sınıf yaz|class yaz|bug|optimize et)/i.test(text)) return false;
+  return true;
+}
+
+/* -------------------- 19. HIZLI ÇİPLER -------------------- */
+function renderChips(){
+  const box = document.getElementById("ctxChips");
+  if (!box) return;
+  if (!S.project.length){ box.hidden = true; box.innerHTML = ""; return; }
+  box.hidden = false;
+  box.innerHTML = S.project.map(f => `
+    <button onclick="setMode('media')">
+      <svg class="ic"><use href="#i-doc"/></svg>${esc(f.name.slice(0, 16))}
+    </button>`).join("");
+}
+function toggleChip(key){
+  S.cfg[key] = !S.cfg[key];
+  saveCfg(); renderChips(); syncToggles();
+}
+
+/* -------------------- 20. EK BAŞLATMA -------------------- */
+document.addEventListener("DOMContentLoaded", () => {
+  renderEngines();
+  renderChips();
+  initProjectInput();
+  renderFileList();
+  setProvider(navigator.onLine ? "cloud" : "local");
+  $("#keyProv")?.addEventListener("change", () => {
+    const p = $("#keyProv").value;
+    if (p && KEY_PROV[p]) $("#keyInput").placeholder = KEY_PROV[p].name + " anahtarı (sk-…)";
+  });
+  window.addEventListener("online", () => { renderEngines(); setProvider("cloud"); });
+  window.addEventListener("offline", () => { renderEngines(); setProvider(S.engine ? "device" : "local"); });
+});
+</script>
+</body>
+</html>
